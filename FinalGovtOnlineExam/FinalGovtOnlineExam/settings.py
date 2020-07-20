@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'SuperAdmin.apps.SuperadminConfig',
     'accounts.apps.AccountsConfig',
     'crispy_forms',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

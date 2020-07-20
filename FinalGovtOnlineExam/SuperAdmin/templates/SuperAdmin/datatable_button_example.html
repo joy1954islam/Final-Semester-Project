@@ -1,125 +1,122 @@
+{% extends 'SuperAdmin/SuperAdminNavbar.html' %}
+{% load static %}
 
+{% load crispy_forms_tags %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-              <div class="col-md-12 col-sm-12 ">
-                <div class="x_panel">
-                    <div class="x_title">
-                      <h2>Button Example <small>Users</small></h2>
-
-                      <div class="clearfix"></div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<a href="#addMinistryModal" style="float:right;" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Ministry</span></a>
+<br>
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>MinistryName</th>
+                                    <th>MinisterName</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for ministry in contact_list  %}
+                                          {% if ministry.username == user %}
+                                                <tr>
+                                                    <td>{{ ministry.MinistryName}}</td>
+                                                    <td>{{ ministry.MinisterName }}</td>
+                                                    <td>{{ ministry.Email }}</td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="../editMinistry/{{ ministry.id }}" role="button">Edit</a>
+							                            <a href="{% url 'deleteMinistry' ministry.id %}" id="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                                    </td>
+                                                </tr>
+                                          {% endif%}
+                                    {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                  <div class="x_content">
-                      <div class="row">
-                          <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                                <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
-                                  <thead>
-                                    <tr>
-                                      <th>Name</th>
-                                      <th>Position</th>
-                                      <th>Office</th>
-                                      <th>Age</th>
-                                      <th>Start date</th>
-                                      <th>Salary</th>
-                                    </tr>
-                                  </thead>
-
-
-                                  <tbody>
-                                    <tr>
-                                      <td>Tiger Nixon</td>
-                                      <td>System Architect</td>
-                                      <td>Edinburgh</td>
-                                      <td>61</td>
-                                      <td>2011/04/25</td>
-                                      <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Garrett Winters</td>
-                                      <td>Accountant</td>
-                                      <td>Tokyo</td>
-                                      <td>63</td>
-                                      <td>2011/07/25</td>
-                                      <td>$170,750</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Ashton Cox</td>
-                                      <td>Junior Technical Author</td>
-                                      <td>San Francisco</td>
-                                      <td>66</td>
-                                      <td>2009/01/12</td>
-                                      <td>$86,000</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Cedric Kelly</td>
-                                      <td>Senior Javascript Developer</td>
-                                      <td>Edinburgh</td>
-                                      <td>22</td>
-                                      <td>2012/03/29</td>
-                                      <td>$433,060</td>
-                                    </tr>
-
-                                    <tr>
-                                      <td>Tatyana Fitzpatrick</td>
-                                      <td>Regional Director</td>
-                                      <td>London</td>
-                                      <td>19</td>
-                                      <td>2010/03/17</td>
-                                      <td>$385,750</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Michael Silva</td>
-                                      <td>Marketing Designer</td>
-                                      <td>London</td>
-                                      <td>66</td>
-                                      <td>2012/11/27</td>
-                                      <td>$198,500</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Paul Byrd</td>
-                                      <td>Chief Financial Officer (CFO)</td>
-                                      <td>New York</td>
-                                      <td>64</td>
-                                      <td>2010/06/09</td>
-                                      <td>$725,000</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Gloria Little</td>
-                                      <td>Systems Administrator</td>
-                                      <td>New York</td>
-                                      <td>59</td>
-                                      <td>2009/04/10</td>
-                                      <td>$237,500</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Bradley Greer</td>
-                                      <td>Software Engineer</td>
-                                      <td>London</td>
-                                      <td>41</td>
-                                      <td>2012/10/13</td>
-                                      <td>$132,000</td>
-                                    </tr>
-
-                                    <tr>
-                                      <td>Michael Bruce</td>
-                                      <td>Javascript Developer</td>
-                                      <td>Singapore</td>
-                                      <td>29</td>
-                                      <td>2011/06/27</td>
-                                      <td>$183,000</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Donna Snider</td>
-                                      <td>Customer Support</td>
-                                      <td>New York</td>
-                                      <td>27</td>
-                                      <td>2011/01/25</td>
-                                      <td>$112,000</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
                 </div>
-              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- add Modal HTML -->
+<div id="addMinistryModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="post" action="{% url 'Ministry' %}">
+                {% csrf_token %}
+				<div class="modal-header">
+					<h4 class="modal-title">Add Ministry</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+                    {{ form|crispy }}
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-primary" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-success" value="Submit">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- add End Modal HTML -->
+<!-- Start Edit Modal HTML -->
+<div id="editEmployeeModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form >
+                {% csrf_token %}
+				<div class="modal-header">
+					<h4 class="modal-title">Edit Ministry</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+                    {{ edit_form|crispy }}
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-info" value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Edit End Modal HTML -->
+<!-- Delete Modal HTML -->
+<div id="deleteEmployeeModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form>
+				<div class="modal-header">
+					<h4 class="modal-title">Delete Employee</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete these Records?</p>
+					<p class="text-warning"><small>This action cannot be undone.</small></p>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-danger" value="Delete">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Delete End Modal HTML -->
+{% endblock content %}

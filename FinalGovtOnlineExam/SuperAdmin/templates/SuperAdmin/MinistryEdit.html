@@ -1,0 +1,26 @@
+{% extends 'SuperAdmin/SuperAdminNavbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!--<div class="modal1 fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="false">-->
+    <div class="modal1-dialog" role="document">
+        <div class="modal1-content">
+            <div class="modal1-header">
+                <h5 class="modal1-title" id="exampleModalLabel1">Edit Ministry</h5>
+
+            </div>
+            <div class="modal1-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ edit_form|crispy }}
+                    <div class="modal1-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal1">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--</div>-->
+
+{% endblock content %}
