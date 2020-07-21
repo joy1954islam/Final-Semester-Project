@@ -36,16 +36,16 @@
                             <div class="row">
                                 <div class="col-12">
                                     <input type="submit" value="Log In" class="btn btn-primary btn-lg px-5 "><br>
-                                    <p class="register pull-right"> First time here? <a class="register-link" href="{% url 'accounts:sign_up'%}">Create an Account</a> </p>
+                                    <p class="register pull-right"> First time here? <a class="register-link" href="{% url 'sign_up'%}">Create an Account</a> </p>
                                     <ul>
                                         <li>
-                                            <a href="{% url 'accounts:restore_password' %}">Forgot your password?</a>
+                                            <a href="{% url 'restore_password' %}">Forgot your password?</a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'accounts:remind_username' %}">Forgot your username?</a>
+                                            <a href="{% url 'remind_username' %}">Forgot your username?</a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'accounts:resend_activation_code' %}">Resend an activation code</a>
+                                            <a href="{% url 'resend_activation_code' %}">Resend an activation code</a>
                                         </li>
                                     </ul>
                                 </div>

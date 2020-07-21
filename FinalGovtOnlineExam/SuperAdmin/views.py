@@ -6,10 +6,30 @@ from django.template.loader import render_to_string
 # Create your views here.
 from .forms import MinistryForm
 from .models import Ministry
+from django.shortcuts import render
+
+from accounts.forms import UserUpdateForm
 
 
 def SuperAdminHome(request):
     return render(request,'SuperAdmin/SuperAdminNavbar.html')
+
+
+def SuperAdminProfile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST,request.FILES, instance=request.user)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, f'Your account has been updated')
+            return redirect('SuperAdminProfile')
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+
+    context = {
+        'u_form': u_form
+    }
+    return render(request, 'SuperAdmin/SuperAdminProfile.html', context)
 
 
 def ministry_list(request):
@@ -63,41 +83,7 @@ def ministry_delete(request, pk):
     return JsonResponse(data)
 
 
-from django.shortcuts import render
 
-# def AddMinistry(request, template_name='SuperAdmin/datatable_button_example.html'):
-#     contact_list = Ministry.objects.all()
-#     form = MinistryForm(request.POST or None)
-#     if form.is_valid():
-#         form.instance.username = request.user
-#         form.save()
-#         messages.success(request, f'Your Ministry has been Created Successfully')
-#         return redirect('Ministry')
-#     context = {
-#         'form': form,
-#         'contact_list': contact_list
-#     }
-#     return render(request, template_name, context)
-#
-#
-# def updateMinistry(request, pk, template_name='SuperAdmin/MinistryEdit.html'):
-#     ministry = get_object_or_404(Ministry, pk=pk)
-#     form = MinistryForm(request.POST or None, instance=ministry)
-#     if form.is_valid():
-#         form.save()
-#         messages.success(request, f'Your Ministry Account Successfully Update')
-#         return redirect('Ministry')
-#     # else:
-#     #     messages.warning(request, f'Your Ministry Account Not Successfully Update')
-#     return render(request, template_name, {'edit_form': form})
-#
-#
-# def deleteMinistry(request, pk, template_name='SuperAdmin/datatable_button_example.html'):
-#     ministry = get_object_or_404(Ministry, pk=pk)
-#     if request.method == 'POST':
-#         ministry.delete()
-#         messages.success(request, f'Your Ministry has been Deleted Successfully')
-#         return redirect('Ministry')
-#     return render(request, template_name, {'object': ministry})
+
 
 

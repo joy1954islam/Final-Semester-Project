@@ -16,3 +16,17 @@ class MinistryForm(forms.ModelForm):
     class Meta:
         model = Ministry
         fields = ['MinistryName','MinisterName','Email']
+
+
+# class UserUpdateForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super(UserUpdateForm, self).__init__(*args, **kwargs)
+#         for username in self.fields.keys():
+#             self.fields[username].widget.attrs.update({
+#                 'class': 'form-control',
+#             })
+#
+#     class Meta:
+#         model = User
+#         fields = ['username','email','first_name','last_name',]
+

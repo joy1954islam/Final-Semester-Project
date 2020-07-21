@@ -167,7 +167,7 @@ class ActivateView(View):
 
         messages.success(request, f'You have successfully activated your account!')
 
-        return redirect('accounts:log_in')
+        return redirect('log_in')
 
 
 class ResendActivationCodeView(GuestOnlyView, FormView):
@@ -197,7 +197,7 @@ class ResendActivationCodeView(GuestOnlyView, FormView):
 
         messages.success(self.request, f'A new activation code has been sent to your email address.')
 
-        return redirect('accounts:resend_activation_code')
+        return redirect('resend_activation_code')
 
 
 class RestorePasswordView(GuestOnlyView, FormView):
@@ -220,7 +220,7 @@ class RestorePasswordView(GuestOnlyView, FormView):
 
         send_reset_password_email(self.request, user.email, token, uid)
 
-        return redirect('accounts:restore_password_done')
+        return redirect('restore_password_done')
 
 
 class ChangeProfileView(LoginRequiredMixin, FormView):
@@ -242,7 +242,7 @@ class ChangeProfileView(LoginRequiredMixin, FormView):
 
         messages.success(self.request, f'Profile data has been successfully updated.')
 
-        return redirect('accounts:change_profile')
+        return redirect('change_profile')
 
 
 class ChangeEmailView(LoginRequiredMixin, FormView):
@@ -281,7 +281,7 @@ class ChangeEmailView(LoginRequiredMixin, FormView):
 
             messages.success(self.request, f'Email successfully changed.')
 
-        return redirect('accounts:change_email')
+        return redirect('change_email')
 
 
 class ChangeEmailActivateView(View):
@@ -299,7 +299,7 @@ class ChangeEmailActivateView(View):
 
         messages.success(request, f'You have successfully changed your email!')
 
-        return redirect('accounts:change_email')
+        return redirect('change_email')
 
 
 class RemindUsernameView(GuestOnlyView, FormView):
@@ -312,7 +312,7 @@ class RemindUsernameView(GuestOnlyView, FormView):
 
         messages.success(self.request,f'Your username has been successfully sent to your email.')
 
-        return redirect('accounts:remind_username')
+        return redirect('remind_username')
 
 
 class ChangePasswordView(BasePasswordChangeView):
@@ -327,7 +327,7 @@ class ChangePasswordView(BasePasswordChangeView):
 
         messages.success(self.request, f'Your password was changed.')
 
-        return redirect('accounts:change_password')
+        return redirect('change_password')
 
 
 class RestorePasswordConfirmView(BasePasswordResetConfirmView):
@@ -339,7 +339,7 @@ class RestorePasswordConfirmView(BasePasswordResetConfirmView):
 
         messages.success(self.request, f'Your password has been set. You may go ahead and log in now.')
 
-        return redirect('accounts:log_in')
+        return redirect('log_in')
 
 
 class RestorePasswordDoneView(BasePasswordResetDoneView):

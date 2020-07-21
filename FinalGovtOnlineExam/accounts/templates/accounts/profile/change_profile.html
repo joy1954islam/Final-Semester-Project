@@ -1,19 +1,16 @@
-{% extends 'layouts/default/page.html' %}
-
-{% load bootstrap4 %}
-{% load i18n %}
-
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
-    <h4>{% trans 'Change profile' %}</h4>
+    <h4>Change profile </h4>
 
     <form method="post">
 
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {{ form|crispy }}
 
-        <button class="btn btn-success">{% trans 'Change' %}</button>
-
+        <button class="btn btn-success">Change</button>
     </form>
 
 {% endblock %}

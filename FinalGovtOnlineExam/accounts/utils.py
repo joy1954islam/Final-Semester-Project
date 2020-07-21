@@ -17,7 +17,7 @@ def send_mail(to, template, context):
 def send_activation_email(request, email, code):
     context = {
         'subject': _('Profile activation'),
-        'uri': request.build_absolute_uri(reverse('accounts:activate', kwargs={'code': code})),
+        'uri': request.build_absolute_uri(reverse('activate', kwargs={'code': code})),
     }
 
     send_mail(email, 'activate_profile', context)
@@ -26,7 +26,7 @@ def send_activation_email(request, email, code):
 def send_activation_change_email(request, email, code):
     context = {
         'subject': _('Change email'),
-        'uri': request.build_absolute_uri(reverse('accounts:change_email_activation', kwargs={'code': code})),
+        'uri': request.build_absolute_uri(reverse('change_email_activation', kwargs={'code': code})),
     }
 
     send_mail(email, 'change_email', context)
@@ -36,7 +36,7 @@ def send_reset_password_email(request, email, token, uid):
     context = {
         'subject': _('Restore password'),
         'uri': request.build_absolute_uri(
-            reverse('accounts:restore_password_confirm', kwargs={'uidb64': uid, 'token': token})),
+            reverse('restore_password_confirm', kwargs={'uidb64': uid, 'token': token})),
     }
 
     send_mail(email, 'restore_password_email', context)

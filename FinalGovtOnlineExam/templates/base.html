@@ -78,14 +78,14 @@
                                           <a href="{% url 'home' %}" class="nav-link text-left">{{ user.username }}</a>
                                        </li>
                                         <li>
-                                             <a href="{% url 'accounts:log_out' %}" class="nav-link text-left">Logout</a>
+                                             <a href="{% url 'log_out' %}" class="nav-link text-left">Logout</a>
                                         </li>
                                        {% else %}
                                             <li>
-                                                <a href="{% url 'accounts:log_in' %}" class="nav-link text-left">Login</a>
+                                                <a href="{% url 'log_in' %}" class="nav-link text-left">Login</a>
                                             </li>
                                              <li>
-                                                <a href="{% url 'accounts:sign_up' %}" class="nav-link text-left">SignUp</a>
+                                                <a href="{% url 'sign_up' %}" class="nav-link text-left">SignUp</a>
                                             </li>
                                    {% endif %}
 
@@ -110,7 +110,7 @@
 
 
           <div>
-              {% include 'messages.html' %}
+
               <br>
               <br>
               <br>

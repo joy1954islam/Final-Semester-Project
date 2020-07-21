@@ -136,7 +136,8 @@ DISABLE_USERNAME = False
 LOGIN_VIA_EMAIL = True
 LOGIN_VIA_EMAIL_OR_USERNAME = False
 LOGIN_REDIRECT_URL = 'home'
-LOGIN_URL = 'accounts:log_in'
+LOGIN_URL = 'log_in'
+LOGOUT_URL = 'log_out'
 USE_REMEMBER_ME = True
 
 RESTORE_PASSWORD_VIA_EMAIL_OR_USERNAME = False
@@ -173,3 +174,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 AUTH_USER_MODEL = 'accounts.User'
+
+import os
+print (os.getcwd())

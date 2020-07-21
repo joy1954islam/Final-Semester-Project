@@ -6,18 +6,31 @@ from django.conf import settings
 from accounts.models import User
 from django.contrib.auth.models import User
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class UserCacheMixin:
     user_cache = None
+
+
+class UserUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        for username in self.fields.keys():
+            self.fields[username].widget.attrs.update({
+                'class': 'form-control',
+            })
+
+    class Meta:
+        model = User
+        fields = ['username','first_name','last_name','phone_number','Address','image']
 
 
 class SignIn(UserCacheMixin, forms.Form):
