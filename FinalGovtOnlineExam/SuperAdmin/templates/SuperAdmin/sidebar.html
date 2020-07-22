@@ -4,7 +4,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li>
-                    <a><i class="fa fa-home"></i> Home </a>
+                    <a href="{% url 'SuperAdminHome' %}"><i class="fa fa-home"></i> Home </a>
                   </li>
                   <li>
                     <a href="{% url 'ministry_list' %}"><i class="fa fa-edit"></i> Ministry </a>
@@ -13,19 +13,16 @@
                     <a href="{% url 'govtemployee_list' %}"><i class="fa fa-clone"></i> GovtSignUp </a>
                   </li>
                   <li>
-                    <a> <i class="fa fa-desktop"></i>Ul Elements</a>
+                    <a> <i class="fa fa-desktop"></i>Profile</a>
                     <ul class="nav child_menu">
-                      <li><a href="#">General Elements</a></li>
-                      <li><a href="#">Media Gallery</a></li>
-                      <li><a href="#">Typography</a></li>
+                      <li><a href="{% url 'SuperAdminProfile' %}">Profile</a></li>
+                      <li><a href="{% url 'change_email' %}">Change Email</a></li>
+                      <li><a href="{% url 'change_password' %}">Change Password</a></li>
 
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="#">Tables</a></li>
-                      <li><a href="#">Table Dynamic</a></li>
-                    </ul>
+                  <li>
+                    <a href="{% url 'log_out' %}"><i class="fa fa-sign-out"></i> Log Out </a>
                   </li>
                 </ul>
               </div>

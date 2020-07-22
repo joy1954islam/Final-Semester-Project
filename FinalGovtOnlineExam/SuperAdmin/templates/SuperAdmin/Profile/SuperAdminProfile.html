@@ -24,7 +24,6 @@
                                            <p class="text-secondary">Full Name : {{ user.first_name}} {{ user.last_name}}</p>
                                            <p class="text-secondary">Phone Number : {{ user.phone_number }}</p>
                                            <p class="text-secondary">Address : {{ user.Address }}</p>
-
                                 </div>
                             </div>
                         </div>
@@ -40,14 +39,14 @@
         <div class="row justify-content-center">
             <div class="col-md-5">
                 <div class="row">
+                    <div class="col-md-12 form-group">
                         <form method="POST">
                              {% csrf_token %}
-                            <div class="col-md-12 form-group">
                              {{ u_form|crispy }}
-                            </div>
                             <button class="btn btn-success col-md-12 form-group" type="submit">Update Profile</button>
                          </form>
                     </div>
+                </div>
             </div>
         </div>
     </div>

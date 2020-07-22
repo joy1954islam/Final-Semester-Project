@@ -16,4 +16,8 @@ urlpatterns = [
     # path('govtemployee/create/', views.govtemployee_create.as_view(), name='govtemployee_create'),
     # path('<int:pk>/govtemployee/update/', views.govtemployee_update, name='govtemployee_update'),
     path('<int:pk>/govtemployee/delete/', views.govtemployee_delete, name='govtemployee_delete'),
+
+    path('change/password/', views.ChangePasswordView.as_view(), name='change_password'),
+    path('change/email/', views.ChangeEmailView.as_view(), name='change_email'),
+    path('change/email/<code>/', views.ChangeEmailActivateView.as_view(), name='change_email_activation'),
 ]
