@@ -1,18 +1,29 @@
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 # Create your views here.
-from .forms import MinistryForm
+from .forms import MinistryForm, GovtSignUpForm
 from .models import Ministry
 from django.shortcuts import render
-
 from accounts.forms import UserUpdateForm
+from django.views.generic import View, FormView
+from django.conf import settings
+from django.utils.crypto import get_random_string
+from accounts.models import Activation
+from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
+from accounts.utils import (
+    send_activation_email,
+)
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 def SuperAdminHome(request):
     return render(request,'SuperAdmin/SuperAdminNavbar.html')
+
 
 
 def SuperAdminProfile(request):
@@ -22,7 +33,6 @@ def SuperAdminProfile(request):
             u_form.save()
             messages.success(request, f'Your account has been updated')
             return redirect('SuperAdminProfile')
-
     else:
         u_form = UserUpdateForm(instance=request.user)
 
@@ -80,6 +90,72 @@ def ministry_delete(request, pk):
     else:
         context = {'ministry': ministry}
         data['html_form'] = render_to_string('SuperAdmin/Ministry/partial_ministry_delete.html', context, request=request)
+    return JsonResponse(data)
+
+
+class GovtSignUpView(FormView):
+    template_name = 'SuperAdmin/GovtEmployee/partial_govtemployee_create.html'
+    form_class = GovtSignUpForm
+
+    def form_valid(self, form):
+        request = self.request
+        user = form.save(commit=False)
+
+        if settings.DISABLE_USERNAME:
+            # Set a temporary username
+            user.username = get_random_string()
+        else:
+            user.username = form.cleaned_data['username']
+
+        if settings.ENABLE_USER_ACTIVATION:
+            user.is_active = False
+
+        # Create a user record
+        user.save()
+
+        # Change the username to the "user_ID" form
+        if settings.DISABLE_USERNAME:
+            user.username = f'user_{user.id}'
+            user.save()
+
+        if settings.ENABLE_USER_ACTIVATION:
+            code = get_random_string(20)
+
+            act = Activation()
+            act.code = code
+            act.user = user
+            act.save()
+
+            send_activation_email(request,user.email, code)
+
+            messages.success(request,f'Account is Created and You are signed up. To activate the account, follow the '
+                                     f'link sent to the mail.')
+        else:
+            raw_password = form.cleaned_data['password1']
+
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            messages.success(request,f'You are successfully signed up!')
+
+        return redirect('govtemployee_list')
+
+
+def govtemployee_list(request):
+    govtemployees = User.objects.all()
+    return render(request, 'SuperAdmin/GovtEmployee/govtemployee_list.html', {'govtemployees': govtemployees})
+
+
+def govtemployee_delete(request, pk):
+    govtemployee = get_object_or_404(User, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        govtemployee.delete()
+        data['form_is_valid'] = True
+        govtemployees = User.objects.all()
+        data['html_govtemployee_list'] = render_to_string('SuperAdmin/GovtEmployee/partial_govtemployee_list.html', {'govtemployees': govtemployees })
+    else:
+        context = {'govtemployee': govtemployee}
+        data['html_form'] = render_to_string('SuperAdmin/GovtEmployee/partial_govtemployee_delete.html', context, request=request)
     return JsonResponse(data)
 
 

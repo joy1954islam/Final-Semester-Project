@@ -1,0 +1,54 @@
+{% extends 'SuperAdmin/SuperAdminNavbar.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'SuperAdmin/js/govtemployee.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<br>
+<p>
+    <a type="button" class="btn btn-Success" style="float:right;" href="{% url 'GovtSignUpView' %}">New GovtEmployeeSingUP</a>
+</p>
+
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table class="table" id="datatable-buttons"  style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>UserName</th>
+                                    <th>First Name </th>
+                                    <th>Last Name </th>
+                                    <th>Email</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% include 'SuperAdmin/GovtEmployee/partial_govtemployee_list.html' %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-govtemployee">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

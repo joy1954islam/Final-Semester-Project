@@ -126,6 +126,7 @@ class SignInViaEmailOrUsernameForm(SignIn):
         return email_or_username
 
 
+# Student SignUpForm
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
