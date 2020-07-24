@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'SuperAdmin.apps.SuperadminConfig',
+    'GovernmentEmployee.apps.GovernmentemployeeConfig',
     'accounts.apps.AccountsConfig',
     'crispy_forms',
     'widget_tweaks',
@@ -122,6 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -157,13 +161,12 @@ LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_TZ = True
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-0
+
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
