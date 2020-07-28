@@ -5,7 +5,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 
-from GovernmentEmployee.forms import CourseForm, CourseContentForm
+from GovernmentEmployee.forms import CourseForm, CourseContentForm, TeacherSignUpForm
 from GovernmentEmployee.models import Course, CourseContent
 from accounts.models import Activation
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
@@ -133,7 +133,7 @@ class ChangeEmailView(LoginRequiredMixin, FormView):
 
             messages.success(self.request, f'Email successfully changed.')
 
-        return redirect('change_email')
+        return redirect('GovernmentEmployee_change_email')
 
 
 class ChangeEmailActivateView(View):
@@ -151,7 +151,7 @@ class ChangeEmailActivateView(View):
 
         messages.success(request, f'You have successfully changed your email!')
 
-        return redirect('change_email')
+        return redirect('GovernmentEmployee_change_email')
 
 
 class ChangePasswordView(BasePasswordChangeView):
@@ -219,3 +219,83 @@ def topic_delete(request, pk):
         context = {'topic': topic}
         data['html_form'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_delete.html', context, request=request)
     return JsonResponse(data)
+
+
+def teacher_list(request):
+    teachers = User.objects.all()
+    return render(request, 'GovernmentEmployee/Teacher/teacher_list.html', {'teachers': teachers})
+
+
+# Teacher SignUp
+class TeacherSignUpView(FormView):
+    template_name = 'GovernmentEmployee/Teacher/partial_teacher_create.html'
+    form_class = TeacherSignUpForm
+
+    def form_valid(self, form):
+        request = self.request
+        user = form.save(commit=False)
+
+        if settings.DISABLE_USERNAME:
+            # Set a temporary username
+            user.username = get_random_string()
+        else:
+            user.username = form.cleaned_data['username']
+
+        if settings.ENABLE_USER_ACTIVATION:
+            user.is_active = False
+
+        # Create a user record
+        user.save()
+
+        # Change the username to the "user_ID" form
+        if settings.DISABLE_USERNAME:
+            user.username = f'user_{user.id}'
+            user.save()
+
+        if settings.ENABLE_USER_ACTIVATION:
+            code = get_random_string(20)
+
+            act = Activation()
+            act.code = code
+            act.user = user
+            act.save()
+
+            send_activation_email(request, user.email, code)
+
+            messages.success(request,f'You are signed up. To activate the account, follow the link sent to the mail.')
+        else:
+            raw_password = form.cleaned_data['password1']
+
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            messages.success(request,f'You are successfully signed up!')
+
+        return redirect('teacher_list')
+
+
+def teacher_delete(request, pk):
+    teacher = get_object_or_404(User, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        teacher.delete()
+        data['form_is_valid'] = True
+        teachers = User.objects.all()
+        data['html_teacher_list'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_list.html', {'teachers': teachers })
+    else:
+        context = {'teacher': teacher}
+        data['html_form'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_delete.html', context, request=request)
+    return JsonResponse(data)
+
+
+def teacher_view(request, pk):
+    teacher = get_object_or_404(User, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        data['form_is_valid'] = True
+        teachers = User.objects.all()
+        data['html_teacher_list'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_list.html', {'teachers': teachers })
+    else:
+        context = {'teacher': teacher}
+        data['html_form'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_view.html', context, request=request)
+    return JsonResponse(data)
+

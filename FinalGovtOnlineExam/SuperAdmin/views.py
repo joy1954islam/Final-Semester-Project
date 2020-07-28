@@ -199,7 +199,7 @@ class ChangeEmailView(LoginRequiredMixin, FormView):
 
             messages.success(self.request, f'Email successfully changed.')
 
-        return redirect('change_email')
+        return redirect('SuperAdmin_change_email')
 
 
 class ChangeEmailActivateView(View):
@@ -217,7 +217,7 @@ class ChangeEmailActivateView(View):
 
         messages.success(request, f'You have successfully changed your email!')
 
-        return redirect('change_email')
+        return redirect('SuperAdmin_change_email    ')
 
 
 class ChangePasswordView(BasePasswordChangeView):

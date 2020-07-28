@@ -41,16 +41,19 @@ $(function () {
 
   /* Binding */
 
-  // Create book
+  // Create govtemployee
   $(".js-create-govtemployee").click(loadForm);
   $("#modal-govtemployee").on("submit", ".js-govtemployee-create-form", saveForm);
 
-  // Update book
+  // Update govtemployee
   $("#datatable-buttons").on("click", ".js-update-govtemployee", loadForm);
   $("#modal-govtemployee").on("submit", ".js-govtemployee-update-form", saveForm);
 
-  // Delete book
+  // Delete govtemployee
   $("#datatable-buttons").on("click", ".js-delete-govtemployee", loadForm);
   $("#modal-govtemployee").on("submit", ".js-govtemployee-delete-form", saveForm);
+
+
+
 
 });

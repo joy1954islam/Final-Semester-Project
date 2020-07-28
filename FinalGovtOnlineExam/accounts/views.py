@@ -108,6 +108,7 @@ class LogInView(GuestOnlyView, FormView):
         return redirect(settings.LOGIN_REDIRECT_URL)
 
 
+# Student SignUp
 class SignUpView(GuestOnlyView, FormView):
     template_name = 'accounts/sign_up.html'
     form_class = SignUpForm
@@ -152,6 +153,7 @@ class SignUpView(GuestOnlyView, FormView):
             messages.success(request,f'You are successfully signed up!')
 
         return redirect('index')
+
 
 
 class ActivateView(View):

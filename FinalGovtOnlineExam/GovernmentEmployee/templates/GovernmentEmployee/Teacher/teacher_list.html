@@ -1,16 +1,23 @@
-{% extends 'SuperAdmin/SuperAdminNavbar.html' %}
+{% extends 'GovernmentEmployee/GovernmentEmployeeNavbar.html' %}
 
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static 'SuperAdmin/js/govtemployee.js' %}"></script>
+  <script src="{% static 'GovernmentEmployee/Teacher/teacher.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 <br>
-<p>
-    <a type="button" class="btn btn-Success" style="float:right;" href="{% url 'GovtSignUpView' %}">New GovtEmployeeSingUP</a>
-</p>
+
+
+ <p>
+     <a href="{% url 'teacher_create' %}" type="button" style="float:right;" class="btn btn-primary">
+         <span class="glyphicon glyphicon-plus"></span>
+            New Teacher
+     </a>
+
+  </p>
+
 
 <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
@@ -30,12 +37,12 @@
                                     <th>First Name </th>
                                     <th>Last Name </th>
                                     <th>Email</th>
-
+                                    <th>View</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                    {% include 'SuperAdmin/GovtEmployee/partial_govtemployee_list.html' %}
+                                    {% include 'GovernmentEmployee/Teacher/partial_teacher_list.html' %}
                             </tbody>
                         </table>
                     </div>
@@ -44,7 +51,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-govtemployee">
+<div class="modal fade" id="modal-teacher">
     <div class="modal-dialog">
       <div class="modal-content">
       </div>

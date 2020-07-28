@@ -1,0 +1,29 @@
+{% for teacher in teachers %}
+  {% if teacher.is_trainer %}
+      <tr>
+          <td>{{ teacher.id }}</td>
+          <td>{{ teacher.username}}</td>
+          <td>{{ teacher.first_name }}</td>
+          <td>{{ teacher.last_name }}</td>
+          <td>{{ teacher.email }}</td>
+          <td style="width: 100px">
+            <button type="button"
+                    class="btn btn-danger btn-sm js-view-teacher"
+                    data-url="{% url 'teacher_view' teacher.id %}">
+              <span class="glyphicon glyphicon-pencil"></span> View
+            </button>
+          </td>
+          <td style="width: 100px">
+            <button type="button"
+                    class="btn btn-danger btn-sm js-delete-teacher"
+                    data-url="{% url 'teacher_delete' teacher.id %}">
+              <span class="glyphicon glyphicon-trash"></span> Delete
+            </button>
+          </td>
+      </tr>
+  {% endif%}
+        {% empty %}
+          <tr>
+            <td colspan="8" class="text-center bg-warning">No teacher</td>
+          </tr>
+{% endfor %}

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from SuperAdmin import views
 
 urlpatterns = [
     path('SuperAdminHome/', views.SuperAdminHome, name='SuperAdminHome'),
@@ -17,7 +17,8 @@ urlpatterns = [
     # path('<int:pk>/govtemployee/update/', views.govtemployee_update, name='govtemployee_update'),
     path('<int:pk>/govtemployee/delete/', views.govtemployee_delete, name='govtemployee_delete'),
 
-    path('change/password/', views.ChangePasswordView.as_view(), name='change_password'),
-    path('change/email/', views.ChangeEmailView.as_view(), name='change_email'),
+
+    path('change/password/', views.ChangePasswordView.as_view(), name='SuperAdmin_change_password'),
+    path('change/email/', views.ChangeEmailView.as_view(), name='SuperAdmin_change_email'),
     path('change/email/<code>/', views.ChangeEmailActivateView.as_view(), name='change_email_activation'),
 ]

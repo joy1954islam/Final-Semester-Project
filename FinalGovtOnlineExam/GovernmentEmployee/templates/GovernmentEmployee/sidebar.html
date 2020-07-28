@@ -13,11 +13,14 @@
                     <a href="{% url 'topic_list' %}"><i class="fa fa-clone"></i> Course Content </a>
                   </li>
                   <li>
+                    <a href="{% url 'teacher_list' %}"><i class="fa fa-coffee"></i> Teacher </a>
+                  </li>
+                  <li>
                     <a> <i class="fa fa-desktop"></i>Profile</a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'GovernmentEmployeeProfile' %}">Profile</a></li>
-                      <li><a href="{% url 'change_email' %}">Change Email</a></li>
-                      <li><a href="{% url 'change_password' %}">Change Password</a></li>
+                      <li><a href="{% url 'GovernmentEmployee_change_email' %}">Change Email</a></li>
+                      <li><a href="{% url 'GovernmentEmployee_change_password' %}">Change Password</a></li>
 
                     </ul>
                   </li>
