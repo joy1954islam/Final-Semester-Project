@@ -1,0 +1,32 @@
+{% for course in courses %}
+  <tr>
+    <td>{{ course.CourseCode }}</td>
+    <td>{{ course.CourseName}}</td>
+    <td>{{ course.CourseStartDate }}</td>
+    <td>{{ course.CourseDuration }}</td>
+     <td style="padding-left: 20px;">
+      <a  class="user-profile" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+        <img src="{{ course.picture.url }}" alt="">
+      </a>
+     </td>
+<!--    <td> <img style="padding-left: 15px;" src="{{ course.picture.url }}"> </td>-->
+    <td style="width: 100px">
+      <button type="button"
+              class="btn btn-warning btn-sm js-update-course"
+              data-url="{% url 'course_update' course.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      </button>
+    </td>
+    <td style="width: 100px">
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-course"
+              data-url="{% url 'course_delete' course.id %}">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+      </button>
+    </td>
+  </tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center bg-warning">No course</td>
+  </tr>
+{% endfor %}

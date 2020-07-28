@@ -1,7 +1,12 @@
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
+
+from GovernmentEmployee.forms import CourseForm, CourseContentForm
+from GovernmentEmployee.models import Course, CourseContent
 from accounts.models import Activation
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
 from accounts.forms import UserUpdateForm, ChangeEmailForm
@@ -22,6 +27,58 @@ User = get_user_model()
 
 def GovernmentEmployeeHome(request):
     return render(request,'GovernmentEmployee/GovernmentEmployeeNavbar.html')
+
+
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'GovernmentEmployee/Course/course_list.html', {'courses': courses})
+
+
+def save_course_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.instance.username = request.user
+            form.save()
+            data['form_is_valid'] = True
+            courses = Course.objects.all()
+            data['html_course_list'] = render_to_string('GovernmentEmployee/Course/partial_course_list.html', {'courses': courses })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+
+def course_create(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES)
+    else:
+        form = CourseForm()
+    return save_course_form(request, form, 'GovernmentEmployee/Course/partial_course_create.html')
+
+
+def course_update(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES , instance=course)
+    else:
+        form = CourseForm(instance=course)
+    return save_course_form(request, form, 'GovernmentEmployee/Course/partial_course_update.html')
+
+
+def course_delete(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        course.delete()
+        data['form_is_valid'] = True
+        courses = Course.objects.all()
+        data['html_course_list'] = render_to_string('GovernmentEmployee/Course/partial_course_list.html', {'courses': courses })
+    else:
+        context = {'course': course}
+        data['html_form'] = render_to_string('GovernmentEmployee/Course/partial_course_delete.html', context, request=request)
+    return JsonResponse(data)
 
 
 def GovernmentEmployeeProfile(request):
@@ -111,3 +168,54 @@ class ChangePasswordView(BasePasswordChangeView):
 
         return redirect('log_in')
 
+
+def topic_list(request):
+    topics = CourseContent.objects.all()
+    return render(request, 'GovernmentEmployee/CourseContent/content_list.html', {'topics': topics})
+
+
+def save_topic_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.instance.username = request.user
+            form.save()
+            data['form_is_valid'] = True
+            topics = CourseContent.objects.all()
+            data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_list.html', {'topics': topics })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+
+def topic_create(request):
+    if request.method == 'POST':
+        form = CourseContentForm(request.POST)
+    else:
+        form = CourseContentForm()
+    return save_topic_form(request, form, 'GovernmentEmployee/CourseContent/partial_content_create.html')
+
+
+def topic_update(request, pk):
+    topic = get_object_or_404(CourseContent, pk=pk)
+    if request.method == 'POST':
+        form = CourseContentForm(request.POST, instance=topic)
+    else:
+        form = CourseContentForm(instance=topic)
+    return save_topic_form(request, form, 'GovernmentEmployee/CourseContent/partial_content_update.html')
+
+
+def topic_delete(request, pk):
+    topic = get_object_or_404(CourseContent, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        topic.delete()
+        data['form_is_valid'] = True
+        topics = CourseContent.objects.all()
+        data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_list.html', {'topics': topics })
+    else:
+        context = {'topic': topic}
+        data['html_form'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_delete.html', context, request=request)
+    return JsonResponse(data)

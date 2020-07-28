@@ -1,0 +1,18 @@
+<form id="myform" name="myform" method="post" action="{% url 'course_create' %}" class="js-course-create-form" enctype="multipart/form-data" novalidate="">
+  {% csrf_token %}
+  <div class="modal-header">
+     <h4 class="modal-title">Create a new course</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+    {% include 'GovernmentEmployee/Course/partial_course_form.html' %}
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Create Course</button>
+  </div>
+</form>
