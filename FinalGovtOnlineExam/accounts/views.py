@@ -45,6 +45,8 @@ def home(request):
             return redirect('SuperAdminHome')
         elif request.user.is_governmentEmployee:
             return redirect('GovernmentEmployeeHome')
+        elif request.user.is_trainer:
+            return redirect('TeacherHome')
 
     return HttpResponse("login failed")
 
@@ -153,7 +155,6 @@ class SignUpView(GuestOnlyView, FormView):
             messages.success(request,f'You are successfully signed up!')
 
         return redirect('index')
-
 
 
 class ActivateView(View):

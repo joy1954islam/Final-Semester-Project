@@ -10,10 +10,10 @@
 <br>
 
   <p>
-    <button type="button" style="float:right;" class="btn btn-primary js-create-course" data-url="{% url 'course_create' %}">
-      <span class="glyphicon glyphicon-plus"></span>
-      New Course
-    </button>
+      <a href="{% url 'course_create' %}" type="button" style="float:right;" class="btn btn-primary">
+         <span class="glyphicon glyphicon-plus"></span>
+            New Course
+      </a>
   </p>
 <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
@@ -33,6 +33,7 @@
                                     <th>CourseStartDate</th>
                                     <th>CourseDuration</th>
                                     <th>picture</th>
+                                    <th>View</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>

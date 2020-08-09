@@ -20,6 +20,7 @@ from accounts import views
 from accounts.views import IndexPageView
 from django.conf import settings
 from django.conf.urls.static import static
+from GovernmentEmployee import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +33,10 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('SuperAdmin/',include('SuperAdmin.urls')),
     path('GovernmentEmployee/',include('GovernmentEmployee.urls')),
+    path('Teacher/',include('Teacher.urls')),
+
+    path('courses/', user_views.Home_Course_View, name='Home_Course_View'),
+    path('teacher/', user_views.Home_Teacher_View, name='Home_Teacher_View'),
 
 ]
 if settings.DEBUG:

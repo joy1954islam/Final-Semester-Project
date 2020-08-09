@@ -42,16 +42,20 @@ $(function () {
 
   /* Binding */
 
-  // Create book
+  // Create Course
   $(".js-create-course").click(loadForm);
   $("#modal-course").on("submit", ".js-course-create-form", saveForm);
 
-  // Update book
+  // Update Course
   $("#datatable-buttons").on("click", ".js-update-course", loadForm);
   $("#modal-course").on("submit", ".js-course-update-form", saveForm);
 
-  // Delete book
+  // Delete Course
   $("#datatable-buttons").on("click", ".js-delete-course", loadForm);
   $("#modal-course").on("submit", ".js-course-delete-form", saveForm);
+
+// view Course
+  $("#datatable-buttons").on("click", ".js-view-course", loadForm);
+  $("#modal-course").on("submit", ".js-course-view-form", saveForm);
 
 });

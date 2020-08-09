@@ -22,7 +22,19 @@ from django.contrib.auth.views import (
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-# Create your views here.
+
+def Home_Course_View(request):
+    courses = Course.objects.all()
+    return render(request, 'courses.html', {'courses': courses})
+
+
+def Home_Teacher_View(request):
+    users = User.objects.all()
+    return render(request, 'Teacher.html', {'users': users})
+
+
+def home(request):
+    return render(request, 'GovernmentEmployee/home.html')
 
 
 def GovernmentEmployeeHome(request):
@@ -34,37 +46,39 @@ def course_list(request):
     return render(request, 'GovernmentEmployee/Course/course_list.html', {'courses': courses})
 
 
-def save_course_form(request, form, template_name):
-    data = dict()
+def course_create(request):
     if request.method == 'POST':
+        form = CourseForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.instance.username = request.user
             form.save()
-            data['form_is_valid'] = True
-            courses = Course.objects.all()
-            data['html_course_list'] = render_to_string('GovernmentEmployee/Course/partial_course_list.html', {'courses': courses })
+            messages.success(request, "Course Created Successfully")
+            return redirect('course_list')
         else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
-
-
-def course_create(request):
-    if request.method == 'POST':
-        form = CourseForm(request.POST, request.FILES)
+            messages.error(request, "Course Not Created Successfully")
     else:
         form = CourseForm()
-    return save_course_form(request, form, 'GovernmentEmployee/Course/partial_course_create.html')
+    return render(request, 'GovernmentEmployee/Course/partial_course_create.html', {'form': form})
 
 
-def course_update(request, pk):
+def course_update(request,pk):
     course = get_object_or_404(Course, pk=pk)
-    if request.method == 'POST':
-        form = CourseForm(request.POST, request.FILES , instance=course)
-    else:
-        form = CourseForm(instance=course)
-    return save_course_form(request, form, 'GovernmentEmployee/Course/partial_course_update.html')
+    form = CourseForm(request.POST or None, request.FILES or None, instance=course)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "course Updated Successfully")
+        return redirect("course_list")
+    # else:
+    #     messages.error(request, "Training Not Updated Successfully")
+    return render(request, 'GovernmentEmployee/Course/partial_course_update.html', {'form': form})
+
+
+def course_view(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    data = dict()
+    context = {'course': course}
+    data['html_form'] = render_to_string('GovernmentEmployee/Course/partial_course_view.html', context, request=request)
+    return JsonResponse(data)
 
 
 def course_delete(request, pk):
@@ -180,6 +194,7 @@ def save_topic_form(request, form, template_name):
         if form.is_valid():
             form.instance.username = request.user
             form.save()
+            messages.success(request, "Course Content Successfully")
             data['form_is_valid'] = True
             topics = CourseContent.objects.all()
             data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_list.html', {'topics': topics })
@@ -290,12 +305,7 @@ def teacher_delete(request, pk):
 def teacher_view(request, pk):
     teacher = get_object_or_404(User, pk=pk)
     data = dict()
-    if request.method == 'POST':
-        data['form_is_valid'] = True
-        teachers = User.objects.all()
-        data['html_teacher_list'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_list.html', {'teachers': teachers })
-    else:
-        context = {'teacher': teacher}
-        data['html_form'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_view.html', context, request=request)
+    context = {'teacher': teacher}
+    data['html_form'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_view.html', context, request=request)
     return JsonResponse(data)
 

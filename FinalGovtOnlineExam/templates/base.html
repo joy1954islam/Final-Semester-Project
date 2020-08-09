@@ -64,13 +64,13 @@
                                 <a href="{% url 'index' %}" class="nav-link text-left">Home</a>
                               </li>
                               <li>
-                                  <a href="#" class="nav-link text-left">Courses</a>
+                                  <a href="{% url 'Home_Course_View' %}" class="nav-link text-left">Courses</a>
                               </li>
                               <li>
                                   <a href="#" class="nav-link text-left">Quiz</a>
                               </li>
                                 <li>
-                                  <a href="#" class="nav-link text-left">Our Teacher</a>
+                                  <a href="{% url 'Home_Teacher_View' %}" class="nav-link text-left">Our Teacher</a>
                                 </li>
                                <li>
                                    {% if user.is_authenticated %}

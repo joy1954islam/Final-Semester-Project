@@ -12,11 +12,11 @@ urlpatterns = [
     path('<int:pk>/ministry/update/', views.ministry_update, name='ministry_update'),
     path('<int:pk>/ministry/delete/', views.ministry_delete, name='ministry_delete'),
 
-    path('govtemployee/', views.govtemployee_list, name='govtemployee_list'),
-    # path('govtemployee/create/', views.govtemployee_create.as_view(), name='govtemployee_create'),
-    # path('<int:pk>/govtemployee/update/', views.govtemployee_update, name='govtemployee_update'),
-    path('<int:pk>/govtemployee/delete/', views.govtemployee_delete, name='govtemployee_delete'),
-
+    path('employee/', views.employee_list, name='employee_list'),
+    path('employee/create/', views.GovtSignUpView.as_view(), name='employee_create'),
+    # path('<int:pk>/teacher/update/', views.teacher_update, name='teacher_update'),
+    path('<int:pk>/employee/delete/', views.employee_delete, name='employee_delete'),
+    path('<int:pk>/employee/view/', views.employee_view, name='employee_view'),
 
     path('change/password/', views.ChangePasswordView.as_view(), name='SuperAdmin_change_password'),
     path('change/email/', views.ChangeEmailView.as_view(), name='SuperAdmin_change_email'),

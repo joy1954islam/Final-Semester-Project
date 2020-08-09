@@ -98,7 +98,7 @@ def ministry_delete(request, pk):
 
 
 class GovtSignUpView(FormView):
-    template_name = 'SuperAdmin/GovtEmployee/partial_govtemployee_create.html'
+    template_name = 'SuperAdmin/GovtEmployee/partial_employee_create.html'
     form_class = GovtSignUpForm
 
     def form_valid(self, form):
@@ -141,25 +141,34 @@ class GovtSignUpView(FormView):
             login(request, user)
             messages.success(request,f'You are successfully signed up!')
 
-        return redirect('govtemployee_list')
+        return redirect('employee_list')
 
 
-def govtemployee_list(request):
-    govtemployees = User.objects.all()
-    return render(request, 'SuperAdmin/GovtEmployee/govtemployee_list.html', {'govtemployees': govtemployees})
+def employee_list(request):
+    employees = User.objects.all()
+    return render(request, 'SuperAdmin/GovtEmployee/employee_list.html', {'employees': employees})
 
 
-def govtemployee_delete(request, pk):
-    govtemployee = get_object_or_404(User, pk=pk)
+def employee_delete(request, pk):
+    employee = get_object_or_404(User, pk=pk)
     data = dict()
     if request.method == 'POST':
-        govtemployee.delete()
+        employee.delete()
         data['form_is_valid'] = True
-        govtemployees = User.objects.all()
-        data['html_govtemployee_list'] = render_to_string('SuperAdmin/GovtEmployee/partial_govtemployee_list.html', {'govtemployees': govtemployees })
+        employees = User.objects.all()
+        data['html_employee_list'] = render_to_string('SuperAdmin/GovtEmployee/partial_employee_list.html',
+                                                      {'employees': employees })
     else:
-        context = {'govtemployee': govtemployee}
-        data['html_form'] = render_to_string('SuperAdmin/GovtEmployee/partial_govtemployee_delete.html', context, request=request)
+        context = {'employee': employee}
+        data['html_form'] = render_to_string('SuperAdmin/GovtEmployee/partial_employee_delete.html', context, request=request)
+    return JsonResponse(data)
+
+
+def employee_view(request, pk):
+    employee = get_object_or_404(User, pk=pk)
+    data = dict()
+    context = {'employee': employee}
+    data['html_form'] = render_to_string('SuperAdmin/GovtEmployee/partial_employee_view.html', context, request=request)
     return JsonResponse(data)
 
 

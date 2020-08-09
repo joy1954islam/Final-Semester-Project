@@ -1,0 +1,36 @@
+<form method="post" action="{% url 'employee_view' employee.id %}" class="js-employee-view-form">
+  {% csrf_token %}
+  <div class="modal-header">
+    <h4 class="modal-title"> employee </h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+      <div class="x_content">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card-box table-responsive">
+                <div class="media">
+                  <div class="media-body">
+                    <img class="rounded-circle account-img" src="{{ employee.image.url }}">
+                    <h2 class="account-heading">UserName : {{ employee.username }}</h2>
+                    <p class="text-secondary">Email : {{ employee.email }}</p>
+                    <p class="text-secondary">First Name : {{ employee.first_name }}</p>
+                    <p class="text-secondary">Last Name : {{ employee.last_name }}</p>
+                    <p class="text-secondary">Full Name : {{ employee.first_name}} {{ employee.last_name}}</p>
+                    <p class="text-secondary">Phone Number : {{ employee.phone_number }}</p>
+                    <p class="text-secondary">Address : {{ employee.Address }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+        </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+  </div>
+</form>
