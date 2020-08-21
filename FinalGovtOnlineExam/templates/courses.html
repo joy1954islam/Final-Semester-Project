@@ -28,13 +28,15 @@
                 <div class="card-deck">
                     {% for course in courses %}
                       <div class="card">
-                        <img class="card-img-top" src="{{ course.picture.url }}" alt="Card image cap">
+                        <img class="card-img-top"  src="{{ course.picture.url }}" alt="Card image cap"  style="height: 350px; width:350px;">
+                          <hr>
                         <div class="card-body">
                           <h5 class="card-title">{{ course.CourseName}}</h5>
                             <p class="card-text"  style="color:#662d91;">By {{ course.username }}</p>
                         </div>
                         <div class="card-footer">
-                          <small class="text-muted">Last updated {{ course.date_posted }}</small>
+<!--                          <small class="text-muted">Last updated {{ course.date_posted }}</small>-->
+                          <a href="{% url 'Home_Course_Details' course.pk %}" class="btn btn-primary text-muted">Course Details</a>
                         </div>
                       </div>
                     {% endfor%}
@@ -42,6 +44,8 @@
             </div>
         </div>
     </div>
+
+
 
 
 {% endblock content %}

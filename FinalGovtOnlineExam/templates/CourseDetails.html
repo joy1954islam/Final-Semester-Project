@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<br>
+<br><br>
+<br><br>
+<br>
+
+
+<div class="container">
+{% for course in Course %}
+    <div class="p-3 mb-2 bg-primary text-white">{{ course.CourseName }} Details</div>
+    <div class="row no-gutters bg-light position-relative">
+         <div class="col-md-6 mb-md-0 p-md-4">
+            <img src="{{ course.picture.url }}" class="w-100" alt="..." style="height: 350px; width:350px;">
+         </div>
+         <div class="col-md-6 position-static p-4 pl-md-0">
+            <div class="p-3 mb-2 bg-secondary text-white">{{ course.CourseName }}</div>
+            <p>Course Created By : {{ course.username }}</p>
+            <p>Course Start Date : {{ course.CourseStartDate }}</p>
+            <p>Course Duration : {{ course.CourseDuration }}</p>
+            <div class="p-3 mb-2 bg-info text-white">Teacher</div>
+             {% for teacher in Course2 %}
+                <p>Course Teacher Name : {{ teacher.TeacherName }}</p>
+             {% endfor %}
+
+              <div class="p-3 mb-2 bg-warning text-white">
+                 <a href="#"> Enroll Now</a>
+              </div>
+         </div>
+    </div>
+
+<div class="p-3 mb-2 bg-success text-white">Course Content </div>
+    {% for topicName in Course1 %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <p class="card-text"> {{ topicName.TopicName}}</p>
+          </div>
+        </div>
+    {% endfor%}
+{% endfor %}
+</div>
+{% endblock content%}

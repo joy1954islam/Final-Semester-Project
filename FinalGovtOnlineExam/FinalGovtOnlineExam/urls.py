@@ -16,16 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from accounts import views
-from accounts.views import IndexPageView
+from accounts import views as account_views
+
 from django.conf import settings
 from django.conf.urls.static import static
-from GovernmentEmployee import views as user_views
+from GovernmentEmployee import views as user_views, views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home, name='home'),
-    path('', IndexPageView.as_view(), name='index'),
+    path('home/', account_views.home, name='home'),
+    # path('', IndexPageView.as_view(), name='index'),
+    path('', views.index, name='index'),
 
     path('i18n/', include('django.conf.urls.i18n')),
 
@@ -34,8 +35,10 @@ urlpatterns = [
     path('SuperAdmin/',include('SuperAdmin.urls')),
     path('GovernmentEmployee/',include('GovernmentEmployee.urls')),
     path('Teacher/',include('Teacher.urls')),
+    path('Student/', include('Student.urls')),
 
     path('courses/', user_views.Home_Course_View, name='Home_Course_View'),
+    path('courses/details/<int:pk>/', user_views.CourseDetails, name='Home_Course_Details'),
     path('teacher/', user_views.Home_Teacher_View, name='Home_Teacher_View'),
 
 ]

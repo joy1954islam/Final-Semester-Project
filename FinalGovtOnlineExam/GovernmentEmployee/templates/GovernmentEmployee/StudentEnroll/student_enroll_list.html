@@ -1,0 +1,51 @@
+{% extends 'GovernmentEmployee/GovernmentEmployeeNavbar.html' %}
+
+{% load static %}
+
+{% block javascript %}
+
+{% endblock %}
+
+{% block content %}
+<br>
+
+
+
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table class="table" id="datatable-buttons"  style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>UserName</th>
+                                    <th>CourseName </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for student in students %}
+                                          <tr>
+                                              <td>{{ student.user }}</td>
+                                              {% for group in student.interests.all %}
+                                                 <td>{{ group.CourseName}} </td>
+                                              {% endfor%}
+
+                                          </tr>
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

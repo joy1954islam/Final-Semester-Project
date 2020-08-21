@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -35,10 +36,6 @@ from .models import Activation
 from django.views.generic import TemplateView
 
 
-class IndexPageView(TemplateView):
-    template_name = 'index.html'
-
-
 def home(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
@@ -47,6 +44,8 @@ def home(request):
             return redirect('GovernmentEmployeeHome')
         elif request.user.is_trainer:
             return redirect('TeacherHome')
+        elif request.user.is_student:
+            return redirect('index')
 
     return HttpResponse("login failed")
 
@@ -111,9 +110,15 @@ class LogInView(GuestOnlyView, FormView):
 
 
 # Student SignUp
+# @method_decorator([login_required,], name='dispatch')
+
 class SignUpView(GuestOnlyView, FormView):
     template_name = 'accounts/sign_up.html'
     form_class = SignUpForm
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'student'
+        return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
         request = self.request

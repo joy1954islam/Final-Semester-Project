@@ -1,8 +1,12 @@
 from datetime import timedelta
 
 from django import forms
+from django.db import transaction
 from django.forms import ValidationError
 from django.conf import settings
+
+from GovernmentEmployee.models import Course
+from Teacher.models import Student
 from accounts.models import User
 from django.contrib.auth.models import User
 from django.contrib.auth.models import User
@@ -128,17 +132,26 @@ class SignInViaEmailOrUsernameForm(SignIn):
 
 # Student SignUpForm
 class SignUpForm(UserCreationForm):
-    class Meta:
+    interests = forms.ModelMultipleChoiceField(
+        queryset=Course.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
+    class Meta(UserCreationForm.Meta):
         model = User
         fields = settings.SIGN_UP_FIELDS
 
     email = forms.EmailField(label=_('Email'), help_text=_('Required. Enter an existing email address.'))
 
+    @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)
         user.is_student = True
-        if commit:
-            user.save()
+        # if commit:
+        user.save()
+        student = Student.objects.create(user=user)
+        student.interests.add(*self.cleaned_data.get('interests'))
         return user
 
     def clean_email(self):

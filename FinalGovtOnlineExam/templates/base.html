@@ -2,7 +2,15 @@
 <html lang="en">
 
 {% load static %}
+<style>
+    .bg-custom-1 {
+  background-color: #85144b;
+}
 
+.bg-custom-2 {
+background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+}
+</style>
 <head>
   <title>GovtExamBD</title>
   <meta charset="utf-8">
@@ -73,23 +81,38 @@
                                   <a href="{% url 'Home_Teacher_View' %}" class="nav-link text-left">Our Teacher</a>
                                 </li>
                                <li>
-                                   {% if user.is_authenticated %}
+                                 {% if user.is_authenticated %}
+                                    <div class="dropdown">
+                                      <button style = "padding: 3px;"class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                          <span  class="image_top"><img style = "max-width:20px; max-height: 20px;" src="{{ user.image.url }}"></span>
+                                        {{ user.username }}
+                                        <span class="caret"></span>
+                                      </button><br>
 
-                                       <li>
-                                          <a href="{% url 'home' %}" class="nav-link text-left">{{ user.username }}</a>
-                                       </li>
-                                        <li>
-                                             <a href="{% url 'log_out' %}" class="nav-link text-left">Logout</a>
-                                        </li>
-                                       {% else %}
-                                            <li>
-                                                <a href="{% url 'log_in' %}" class="nav-link text-left">Login</a>
-                                            </li>
-                                             <li>
-                                                <a href="{% url 'sign_up' %}" class="nav-link text-left">SignUp</a>
-                                            </li>
-                                   {% endif %}
+                                        {% if user.is_student %}
+                                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
+                                                          <a class="dropdown-item" href="{% url 'StudentProfile' %}"></i>My Account</a><hr>
+                                                          <a class="dropdown-item" href="{% url 'my_course' %}">My Courses</a>
+                                                          <hr>
+                                                          <a class="dropdown-item" href="{% url 'log_out' %}">Log Out</a>
+
+
+                                              </div>
+                                        {% endif %}
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            <a class="dropdown-item" href="{% url 'home' %}">Dashboard</a>
+                                             <a class="dropdown-item" href="{% url 'log_out' %}">Log Out</a>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <li>
+                                        <a href="{% url 'log_in' %}" class="nav-link text-left">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'sign_up' %}" class="nav-link text-left">SignUp</a>
+                                    </li>
+                                 {% endif %}
                                </li>
                             </ul>                                                                                                                                                                                                                                                                                          </ul>
                           </nav>
@@ -107,14 +130,15 @@
                   </div>
                 </div>
             </header>
-
-
-
           <div>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
 
-              <br>
-              <br>
-              <br>
               {% block content%}
 
               {% endblock content %}

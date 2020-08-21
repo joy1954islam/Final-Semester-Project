@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Student.apps.StudentConfig',
     'Teacher.apps.TeacherConfig',
     'TeacherEnroll.apps.TeacherenrollConfig',
     'SuperAdmin.apps.SuperadminConfig',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'crispy_forms',
     'widget_tweaks',
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

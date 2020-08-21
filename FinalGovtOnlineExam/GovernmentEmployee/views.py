@@ -7,6 +7,8 @@ from django.utils.crypto import get_random_string
 
 from GovernmentEmployee.forms import CourseForm, CourseContentForm, TeacherSignUpForm
 from GovernmentEmployee.models import Course, CourseContent
+from Teacher.models import Student
+from TeacherEnroll.models import TeacherEnroll
 from accounts.models import Activation
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
 from accounts.forms import UserUpdateForm, ChangeEmailForm
@@ -21,6 +23,29 @@ from django.contrib.auth.views import (
 )
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
+
+def CourseDetails(request,pk):
+    # course = Training.objects.filter(Topic__TrainingName=)
+    course1 = Course.objects.filter(pk=pk)
+    course2 = CourseContent.objects.filter(CourseName=pk)
+    course3 = TeacherEnroll.objects.filter(CourseName=pk)
+    context = {
+        'Course': course1,
+        'Course1': course2,
+        'Course2': course3
+    }
+    return render(request,'CourseDetails.html', context)
+
+
+def index(request):
+    courses = Course.objects.all()
+    teacher = User.objects.all()
+    context = {
+        'courses': courses,
+        'teacher': teacher,
+    }
+    return render(request,'index.html', context)
 
 
 def Home_Course_View(request):
@@ -39,6 +64,11 @@ def home(request):
 
 def GovernmentEmployeeHome(request):
     return render(request,'GovernmentEmployee/GovernmentEmployeeNavbar.html')
+
+
+def Student_Enroll(request):
+    students = Student.objects.all()
+    return render(request, 'GovernmentEmployee/StudentEnroll/student_enroll_list.html', {'students': students})
 
 
 def course_list(request):
@@ -194,9 +224,9 @@ def save_topic_form(request, form, template_name):
         if form.is_valid():
             form.instance.username = request.user
             form.save()
-            messages.success(request, "Course Content Successfully")
             data['form_is_valid'] = True
             topics = CourseContent.objects.all()
+            messages.success(request, "Course Content Successfully")
             data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_list.html', {'topics': topics })
         else:
             data['form_is_valid'] = False

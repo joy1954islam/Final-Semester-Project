@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+    <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url({% static 'images/bg_1.jpg' %});">
+        <div class="container">
+          <div class="row align-items-end">
+            <div class="col-lg-7">
+              <h2 class="mb-0">My Courses</h2>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="custom-breadcrumns border-bottom">
+      <div class="container">
+        <a href="#">Home</a>
+        <span class="mx-3 icon-keyboard_arrow_right"></span>
+        <span class="current">My Courses</span>
+      </div>
+    </div>
+
+    <div class="site-section">
+        <div class="container">
+            <div class="row">
+                <div class="card-deck">
+                    {% for course in course %}
+                       {% if course.user == user %}
+                            {% for course in course.interests.all %}
+                                  <div class="card">
+                                    <img class="card-img-top"  src="{{ course.picture.url }}" alt="Card image cap"  style="height: 350px; width:350px;">
+                                      <hr>
+                                    <div class="card-body">
+                                      <h5 class="card-title">{{ course.CourseName}}</h5>
+                                        <p class="card-text"  style="color:#662d91;">By {{ course.username }}</p>
+                                    </div>
+                                    <div class="card-footer">
+            <!--                          <small class="text-muted">Last updated {{ course.date_posted }}</small>-->
+                                      <a href="{% url 'Home_Course_Details' course.pk %}" class="btn btn-primary text-muted">Course Details</a>
+                                    </div>
+                                  </div>
+                            {% endfor%}
+                       {% endif %}
+                    {% endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+

@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from GovernmentEmployee import views
-from accounts.views import IndexPageView
 from django.conf import settings
 from django.conf.urls.static import static
 from TeacherEnroll import views as teacherEnroll
@@ -16,6 +15,9 @@ urlpatterns = [
     path('change/password/', views.ChangePasswordView.as_view(), name='GovernmentEmployee_change_password'),
     path('change/email/', views.ChangeEmailView.as_view(), name='GovernmentEmployee_change_email'),
     path('change/email/<code>/', views.ChangeEmailActivateView.as_view(), name='change_email_activation'),
+
+    path('StudentEnroll/', views.Student_Enroll, name='Student_Enroll_View'),
+
 
     path('course/', views.course_list, name='course_list'),
     path('course/create/', views.course_create, name='course_create'),
