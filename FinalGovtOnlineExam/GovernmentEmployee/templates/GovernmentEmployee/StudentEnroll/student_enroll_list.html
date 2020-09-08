@@ -32,9 +32,12 @@
                                     {% for student in students %}
                                           <tr>
                                               <td>{{ student.user }}</td>
-                                              {% for group in student.interests.all %}
-                                                 <td>{{ group.CourseName}} </td>
-                                              {% endfor%}
+                                              <td>
+                                                  {% for group in student.interests.all %}
+
+                                                            {{ group.CourseName }}<br>
+                                                  {% endfor%}
+                                              </td>
 
                                           </tr>
                                     {% endfor %}

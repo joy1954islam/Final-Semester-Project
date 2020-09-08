@@ -10,7 +10,7 @@ from GovernmentEmployee.models import Course
 
 
 class TeacherEnroll(models.Model):
-
+    owner_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True,blank=True,related_name='owner_name')
     TeacherName = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                     limit_choices_to={'is_trainer': True}, )
     CourseName = models.ForeignKey(Course, on_delete=models.CASCADE)

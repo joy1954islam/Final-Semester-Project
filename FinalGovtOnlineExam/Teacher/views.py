@@ -5,8 +5,8 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 
-from Teacher.forms import QuestionForm, BaseAnswerInlineFormSet
-from Teacher.models import Quiz, Question, Answer
+from Teacher.forms import QuestionForm, BaseAnswerInlineFormSet, TakeQuizForm
+from Teacher.models import Quiz, Question, Answer, TakenQuiz
 from accounts.models import Activation
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
 from accounts.forms import UserUpdateForm, ChangeEmailForm
@@ -148,7 +148,7 @@ class QuizListView(ListView):
 # @method_decorator([login_required, teacher_required], name='dispatch')
 class QuizCreateView(CreateView):
     model = Quiz
-    fields = ('name', 'subject', )
+    fields = ('name', 'subject','time_duration', )
     template_name = 'Teacher/teachers/quiz_add_form.html'
 
     def form_valid(self, form):
@@ -162,7 +162,7 @@ class QuizCreateView(CreateView):
 # @method_decorator([login_required, teacher_required], name='dispatch')
 class QuizUpdateView(UpdateView):
     model = Quiz
-    fields = ('name', 'subject', )
+    fields = ('name', 'subject', 'time_duration',)
     context_object_name = 'quiz'
     template_name = 'Teacher/teachers/quiz_change_form.html'
 
@@ -243,6 +243,7 @@ def question_add(request, pk):
 
     return render(request, 'Teacher/teachers/question_add_form.html', {'quiz': quiz, 'form': form})
 
+
 # @login_required
 # @teacher_required
 def question_change(request, quiz_pk, question_pk):
@@ -310,3 +311,31 @@ class QuestionDeleteView(DeleteView):
     def get_success_url(self):
         question = self.get_object()
         return reverse('quiz_change', kwargs={'pk': question.quiz_id})
+
+
+class MCQQuizListView(ListView):
+    model = Quiz
+    ordering = ('name', )
+    context_object_name = 'quizzes'
+    template_name = 'Teacher/MCQ/mcq_quiz_list.html'
+
+    def get_queryset(self):
+        queryset = self.request.user.quizzes \
+            .select_related('subject') \
+            .annotate(questions_count=Count('questions', distinct=True)) \
+            .annotate(taken_count=Count('taken_quizzes', distinct=True))
+        return queryset
+
+
+def mcq_question_list(request, pk):
+    quiz = Quiz.objects.filter(pk=pk)
+    question = Question.objects.filter(quiz=pk)
+    answer = Answer.objects.filter(question=pk)
+    context = {
+        'quiz': quiz,
+        'question': question,
+        'answer': answer
+    }
+    return render(request, 'Teacher/MCQ/MCQ_Question.html',context)
+
+

@@ -18,6 +18,10 @@ urlpatterns = [
     path('quiz/<int:pk>/results/', views.QuizResultsView.as_view(), name='quiz_results'),
     path('quiz/<int:pk>/question/add/', views.question_add, name='question_add'),
     path('quiz/<int:quiz_pk>/question/<int:question_pk>/', views.question_change, name='question_change'),
-    path('quiz/<int:quiz_pk>/question/<int:question_pk>/delete/', views.QuestionDeleteView.as_view(), name='question_delete'),
+    path('quiz/<int:quiz_pk>/question/<int:question_pk>/delete/', views.QuestionDeleteView.as_view(),
+         name='question_delete'),
+    path('mcq/quiz/<int:pk>/', views.mcq_question_list, name='mcq_question_views'),
+    path('mcq/quiz/', views.MCQQuizListView.as_view(), name='mcq_list'),
+
 
 ]

@@ -1,14 +1,10 @@
-from django.db import models
 
-# Create your models here.
-from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from PIL import Image
 from django.contrib.auth.models import User
-#from SuperAdmin.models import Ministry
+from SuperAdmin.models import Ministry
 
 
 class Activation(models.Model):
@@ -19,6 +15,8 @@ class Activation(models.Model):
 
 
 class User(AbstractUser):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True,blank=True)
+    MinistryName = models.ForeignKey(Ministry,on_delete=models.CASCADE,null=True,blank=True)
     is_governmentEmployee = models.BooleanField(default=False)
     is_trainer = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)

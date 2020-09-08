@@ -39,7 +39,8 @@ class MinistryForm(forms.ModelForm):
 class GovtSignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = settings.SIGN_UP_FIELDS
+        fields = ['username', 'first_name', 'last_name', 'email','MinistryName', 'password1', 'password2']
+            # settings.SIGN_UP_FIELDS
 
     email = forms.EmailField(label=_('Email'), help_text=_('Required. Enter an existing email address.'))
 

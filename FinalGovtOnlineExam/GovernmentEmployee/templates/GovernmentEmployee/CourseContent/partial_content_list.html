@@ -1,5 +1,5 @@
 {% for topic in topics %}
-
+  {% if topic.username == user %}
         <tr>
           <td>{{ topic.id }}</td>
           <td>{{ topic.CourseName}}</td>
@@ -9,17 +9,18 @@
             <button type="button"
                     class="btn btn-warning btn-sm js-update-topic"
                     data-url="{% url 'topic_update' topic.id %}">
-              <span class="glyphicon glyphicon-pencil"></span> Edit
+              <span class="glyphicon glyphicon-pencil"></span>
             </button>
           </td>
           <td style="width: 100px">
             <button type="button"
                     class="btn btn-danger btn-sm js-delete-topic"
                     data-url="{% url 'topic_delete' topic.id %}">
-              <span class="glyphicon glyphicon-trash"></span> Delete
+              <span class="glyphicon glyphicon-trash"></span>
             </button>
           </td>
         </tr>
+  {% endif %}
 
 
 {% endfor %}

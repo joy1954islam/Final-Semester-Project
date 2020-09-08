@@ -7,10 +7,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
+
 
   <div class="container">
     {% include 'Student/_header.html' with active='new' %}
@@ -21,6 +18,7 @@
           <th>Quiz</th>
           <th>Subject</th>
           <th>Length</th>
+          <th>Exam Time Duration</th>
           <th></th>
         </tr>
       </thead>
@@ -30,6 +28,7 @@
             <td class="align-middle">{{ quiz.name }}</td>
             <td class="align-middle">{{ quiz.subject }}</td>
             <td class="align-middle">{{ quiz.questions_count }} questions</td>
+            <td class="align-middle">{{ quiz.time_duration  }}</td>
             <td class="text-right">
               <a href="{% url 'take_quiz' quiz.pk %}" class="btn btn-primary">Start quiz</a>
             </td>

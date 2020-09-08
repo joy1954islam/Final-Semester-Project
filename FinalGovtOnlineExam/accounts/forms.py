@@ -132,11 +132,11 @@ class SignInViaEmailOrUsernameForm(SignIn):
 
 # Student SignUpForm
 class SignUpForm(UserCreationForm):
-    interests = forms.ModelMultipleChoiceField(
-        queryset=Course.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True
-    )
+    # interests = forms.ModelMultipleChoiceField(
+    #     queryset=Course.objects.all(),
+    #     widget=forms.CheckboxSelectMultiple,
+    #     required=True
+    # )
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -151,7 +151,7 @@ class SignUpForm(UserCreationForm):
         # if commit:
         user.save()
         student = Student.objects.create(user=user)
-        student.interests.add(*self.cleaned_data.get('interests'))
+        # student.interests.add(*self.cleaned_data.get('interests'))
         return user
 
     def clean_email(self):

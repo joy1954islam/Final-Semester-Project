@@ -1,5 +1,5 @@
 {% for teacher in teachers %}
-  {% if teacher.is_trainer %}
+  {% if teacher.owner == user and teacher.is_trainer  %}
       <tr>
           <td>{{ teacher.id }}</td>
           <td>{{ teacher.username}}</td>
@@ -22,6 +22,7 @@
           </td>
       </tr>
   {% endif%}
+
         {% empty %}
           <tr>
             <td colspan="8" class="text-center bg-warning">No teacher</td>

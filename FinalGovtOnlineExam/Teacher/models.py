@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
-
+import datetime
+from django.utils import timezone
 from GovernmentEmployee.models import Course
 
 
@@ -8,6 +9,7 @@ class Quiz(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='quizzes')
     name = models.CharField(max_length=255)
     subject = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
+    time_duration = models.TimeField(auto_now=False, auto_now_add=False, blank=True,)
 
     def __str__(self):
         return self.name

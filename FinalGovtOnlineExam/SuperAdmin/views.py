@@ -27,7 +27,7 @@ User = get_user_model()
 
 
 def SuperAdminHome(request):
-    return render(request,'SuperAdmin/SuperAdminNavbar.html')
+    return render(request,'SuperAdmin/Home.html')
 
 
 def SuperAdminProfile(request):

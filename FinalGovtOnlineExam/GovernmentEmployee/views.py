@@ -55,11 +55,17 @@ def Home_Course_View(request):
 
 def Home_Teacher_View(request):
     users = User.objects.all()
+
     return render(request, 'Teacher.html', {'users': users})
 
 
 def home(request):
-    return render(request, 'GovernmentEmployee/home.html')
+    student = User.objects.count()
+    context = {
+        'student': student,
+
+    }
+    return render(request, 'GovernmentEmployee/home.html',context)
 
 
 def GovernmentEmployeeHome(request):
@@ -290,6 +296,7 @@ class TeacherSignUpView(FormView):
             user.is_active = False
 
         # Create a user record
+        user.owner = request.user
         user.save()
 
         # Change the username to the "user_ID" form

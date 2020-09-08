@@ -1,5 +1,6 @@
 {% for course in courses %}
-  <tr>
+   {% if course.username == user %}
+   <tr>
     <td>{{ course.CourseCode }}</td>
     <td>{{ course.CourseName}}</td>
     <td>{{ course.CourseStartDate }}</td>
@@ -9,27 +10,28 @@
         <img src="{{ course.picture.url }}" alt="">
       </a>
      </td>
-        <td style="width: 100px">
-          <button type="button"
-                  class="btn btn-danger btn-sm js-delete-course"
-                  data-url="{% url 'course_view' course.id %}">
-           <span class='glyphicon glyphicon-eye-open'></span> View
-          </button>
-        </td>
-        <td style="width: 100px">
-          <a href="{% url 'course_update' course.id %}" type="button" style="float:right;" class="btn btn-warning">
-            <span class="glyphicon glyphicon-pencil"></span>
-                Edit
-          </a>
-        </td>
-        <td style="width: 100px">
-          <button type="button"
-                  class="btn btn-danger btn-sm js-delete-course"
-                  data-url="{% url 'course_delete' course.id %}">
-            <span class="glyphicon glyphicon-trash"></span> Delete
-          </button>
-        </td>
-  </tr>
+            <td style="width: 100px">
+              <button type="button"
+                      class="btn btn-danger btn-sm js-delete-course"
+                      data-url="{% url 'course_view' course.id %}">
+               <span class='glyphicon glyphicon-eye-open'></span>
+              </button>
+            </td>
+
+            <td style="width: 100px">
+              <a href="{% url 'course_update' course.id %}" type="button" style="float:right;" class="btn btn-warning">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a>
+            </td>
+            <td style="width: 100px">
+              <button type="button"
+                      class="btn btn-danger btn-sm js-delete-course"
+                      data-url="{% url 'course_delete' course.id %}">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+   {% endif%}
+   </tr>
 {% empty %}
   <tr>
     <td colspan="8" class="text-center bg-warning">No course</td>
