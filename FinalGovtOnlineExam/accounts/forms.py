@@ -7,7 +7,7 @@ from django.conf import settings
 
 from GovernmentEmployee.models import Course
 from Teacher.models import Student
-from accounts.models import User
+from accounts.models import User, Contact
 from django.contrib.auth.models import User
 from django.contrib.auth.models import User
 
@@ -22,6 +22,19 @@ User = get_user_model()
 
 class UserCacheMixin:
     user_cache = None
+
+
+class ContactForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        for First_Name in self.fields.keys():
+            self.fields[First_Name].widget.attrs.update({
+                'class': 'form-control',
+            })
+
+    class Meta:
+        model = Contact
+        fields = ['First_Name','Last_Name','Email_Address','Phone_number','Message',]
 
 
 class UserUpdateForm(forms.ModelForm):

@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 
 from Teacher.forms import QuestionForm, BaseAnswerInlineFormSet, TakeQuizForm
-from Teacher.models import Quiz, Question, Answer, TakenQuiz
+from Teacher.models import Quiz, Question, Answer, TakenQuiz, StudentAnswer
 from accounts.models import Activation
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
 from accounts.forms import UserUpdateForm, ChangeEmailForm
@@ -39,7 +39,17 @@ User = get_user_model()
 
 
 def home(request):
-    return render(request, 'Teacher/home.html')
+    student_count = User.objects.all()
+    student = student_count.filter(is_student=True, ).count()
+    teacher = student_count.filter(is_trainer=True).count()
+    government_employee = student_count.filter(is_governmentEmployee=True).count()
+    context = {
+        'student': student,
+        'teacher': teacher,
+        'government_employee': government_employee,
+
+    }
+    return render(request, 'Teacher/home.html',context)
 
 
 def TeacherProfile(request):
@@ -338,4 +348,11 @@ def mcq_question_list(request, pk):
     }
     return render(request, 'Teacher/MCQ/MCQ_Question.html',context)
 
+
+def StudentAnswerShit(request):
+    answer = StudentAnswer.objects.all()
+    context = {
+        'answer': answer
+    }
+    return render(request, 'Teacher/StudentResult.html',context)
 

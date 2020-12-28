@@ -1,21 +1,24 @@
 {% for teacherEnroll in teacherEnrolls %}
 {% if teacherEnroll.owner_name == user %}
   <tr>
-    <td>{{ teacherEnroll.id }}</td>
+     <td>{{ teacherEnroll.id }}</td>
+    <td>{{ teacherEnroll.Batch }}</td>
     <td>{{ teacherEnroll.TeacherName}}</td>
     <td>{{ teacherEnroll.CourseName }}</td>
+    <td>{{ teacherEnroll.CourseStartDate }}</td>
+    <td>{{ teacherEnroll.CourseDuration }}</td>
+    <td>{{ teacherEnroll.is_publish }}</td>
     <td style="width: 100px">
       <button type="button"
-              class="btn btn-warning btn-sm js-update-teacherEnroll"
+              class="btn btn-success btn-sm js-update-teacherEnroll"
               data-url="{% url 'teacherEnroll_update' teacherEnroll.id %}">
-        <span class="glyphicon glyphicon-pencil"></span> Edit
+        <span class="glyphicon glyphicon-pencil"></span>
       </button>
-    </td>
-    <td style="width: 100px">
+
       <button type="button"
               class="btn btn-danger btn-sm js-delete-teacherEnroll"
-              data-url="{% url 'teacherEnroll_delete' teacherEnroll.id %}">
-        <span class="glyphicon glyphicon-trash"></span> Delete
+              data-url="{% url 'Student_Enroll_delete' teacherEnroll.id %}">
+        <span class="glyphicon glyphicon-trash"></span>
       </button>
     </td>
   </tr>

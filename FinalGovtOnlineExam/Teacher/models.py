@@ -3,12 +3,14 @@ from django.conf import settings
 import datetime
 from django.utils import timezone
 from GovernmentEmployee.models import Course
+from CourseMaterial.models import CourseMaterial
+from TeacherEnroll.models import TeacherEnroll
 
 
 class Quiz(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='quizzes')
     name = models.CharField(max_length=255)
-    subject = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
+    subject = models.ForeignKey(CourseMaterial, on_delete=models.CASCADE, related_name='quizzes')
     time_duration = models.TimeField(auto_now=False, auto_now_add=False, blank=True,)
 
     def __str__(self):
@@ -33,9 +35,10 @@ class Answer(models.Model):
 
 
 class Student(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, limit_choices_to={'is_student': True},)
     quizzes = models.ManyToManyField(Quiz, through='TakenQuiz')
-    interests = models.ManyToManyField(Course, related_name='interested_students')
+    interests = models.ManyToManyField(TeacherEnroll, related_name='interested_students')
+    is_enroll = models.BooleanField(default=False)
 
     def get_unanswered_questions(self, quiz):
         answered_questions = self.quiz_answers \

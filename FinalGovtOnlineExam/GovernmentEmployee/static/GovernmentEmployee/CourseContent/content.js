@@ -41,16 +41,20 @@ $(function () {
 
   /* Binding */
 
-  // Create book
+  // Create
   $(".js-create-topic").click(loadForm);
   $("#modal-topic").on("submit", ".js-topic-create-form", saveForm);
 
-  // Update book
+  // Update
   $("#datatable-buttons").on("click", ".js-update-topic", loadForm);
   $("#modal-topic").on("submit", ".js-topic-update-form", saveForm);
 
-  // Delete book
+  // Delete
   $("#datatable-buttons").on("click", ".js-delete-topic", loadForm);
   $("#modal-topic").on("submit", ".js-topic-delete-form", saveForm);
+
+    //view
+  $("#datatable-buttons").on("click", ".js-view-topic", loadForm);
+  $("#modal-topic").on("submit", ".js-topic-view-form", saveForm);
 
 });

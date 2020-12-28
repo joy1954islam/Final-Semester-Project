@@ -6,18 +6,26 @@
           <td>{{ employee.first_name }}</td>
           <td>{{ employee.last_name }}</td>
           <td>{{ employee.email }}</td>
-          <td style="width: 100px">
-            <button type="button"
-                    class="btn btn-danger btn-sm js-view-employee"
-                    data-url="{% url 'employee_view' employee.id %}">
-              <span class='glyphicon glyphicon-eye-open'></span> View
-            </button>
+          <td>
+              {{ employee.MinistryName}}
+<!--              {% for group in employee.MinistryName.all %}-->
+<!--                     {{ group.MinistryName }}<br>-->
+<!--               {% endfor%}-->
           </td>
-          <td style="width: 100px">
+          <td style="width: 150px">
+              <a href="{% url 'employee_update' employee.id %}" type="button" class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a>
+            <button type="button"
+                    class="btn btn-success btn-sm js-view-employee"
+                    data-url="{% url 'employee_view' employee.id %}">
+              <span class='glyphicon glyphicon-eye-open'></span>
+            </button>
+
             <button type="button"
                     class="btn btn-danger btn-sm js-delete-employee"
                     data-url="{% url 'employee_delete' employee.id %}">
-              <span class="glyphicon glyphicon-trash"></span> Delete
+              <span class="glyphicon glyphicon-trash"></span>
             </button>
           </td>
       </tr>

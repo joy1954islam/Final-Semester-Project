@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'StudentEnroll',
+    'ViewClass',
+    'UploadLecture',
+    'CourseMaterial',
     'Student.apps.StudentConfig',
     'Teacher.apps.TeacherConfig',
     'TeacherEnroll.apps.TeacherenrollConfig',
@@ -46,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

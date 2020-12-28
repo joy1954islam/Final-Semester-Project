@@ -40,7 +40,6 @@ class GovtSignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email','MinistryName', 'password1', 'password2']
-            # settings.SIGN_UP_FIELDS
 
     email = forms.EmailField(label=_('Email'), help_text=_('Required. Enter an existing email address.'))
 
@@ -59,3 +58,21 @@ class GovtSignUpForm(UserCreationForm):
             raise ValidationError(_('You can not use this email address.'))
 
         return email
+
+
+class GovtSignUpUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email','MinistryName',]
+
+
+class StudentSignUpUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email',]
+
+
+class TeacherSignUpUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email',]

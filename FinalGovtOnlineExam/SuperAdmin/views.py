@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 # Create your views here.
-from .forms import MinistryForm, GovtSignUpForm
+from .forms import MinistryForm, GovtSignUpForm, GovtSignUpUpdateForm, StudentSignUpUpdateForm, TeacherSignUpUpdateForm
 from .models import Ministry
 from django.shortcuts import render
 from accounts.forms import UserUpdateForm, ChangeEmailForm
@@ -22,12 +22,23 @@ from django.contrib.auth.views import (
     LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
     PasswordResetDoneView as BasePasswordResetDoneView, PasswordResetConfirmView as BasePasswordResetConfirmView,
 )
+from .filters import GovtUserFilter
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
 def SuperAdminHome(request):
-    return render(request,'SuperAdmin/Home.html')
+    student_count = User.objects.all()
+    student = student_count.filter(is_student=True, ).count()
+    teacher = student_count.filter(is_trainer=True).count()
+    government_employee = student_count.filter(is_governmentEmployee=True).count()
+    context = {
+        'student': student,
+        'teacher': teacher,
+        'government_employee': government_employee,
+
+    }
+    return render(request,'SuperAdmin/Home.html',context)
 
 
 def SuperAdminProfile(request):
@@ -146,7 +157,25 @@ class GovtSignUpView(FormView):
 
 def employee_list(request):
     employees = User.objects.all()
-    return render(request, 'SuperAdmin/GovtEmployee/employee_list.html', {'employees': employees})
+    MyFilter = GovtUserFilter(request.GET,queryset=employees)
+    employees = MyFilter.qs
+    context = {
+        'employees': employees,
+        'MyFilter':MyFilter,
+    }
+    return render(request, 'SuperAdmin/GovtEmployee/employee_list.html', context)
+
+
+def employee_update(request,pk):
+    course = get_object_or_404(User, pk=pk)
+    form = GovtSignUpUpdateForm(request.POST or None, request.FILES or None, instance=course)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "User Updated Successfully")
+        return redirect("employee_list")
+    # else:
+    #     messages.error(request, "Training Not Updated Successfully")
+    return render(request, 'SuperAdmin/GovtEmployee/partial_employee_update.html', {'form': form})
 
 
 def employee_delete(request, pk):
@@ -244,9 +273,51 @@ class ChangePasswordView(BasePasswordChangeView):
         return redirect('log_in')
 
 
+def student_list(request):
+    students = User.objects.all()
+    return render(request, 'SuperAdmin/Student/student_list.html', {'students': students})
 
 
+def student_view(request, pk):
+    student = get_object_or_404(User, pk=pk)
+    data = dict()
+    context = {'student': student}
+    data['html_form'] = render_to_string('SuperAdmin/Student/partial_student_view.html', context, request=request)
+    return JsonResponse(data)
 
 
+def student_update(request,pk):
+    student = get_object_or_404(User, pk=pk)
+    form = StudentSignUpUpdateForm(request.POST or None, request.FILES or None, instance=student)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "User Updated Successfully")
+        return redirect("super_admin_student_list")
+    # else:
+    #     messages.error(request, "Training Not Updated Successfully")
+    return render(request, 'SuperAdmin/Student/partial_student_update.html', {'form': form})
 
 
+def teacher_list(request):
+    teachers = User.objects.all()
+    return render(request, 'SuperAdmin/Teacher/teacher_list.html', {'teachers': teachers})
+
+
+def teacher_view(request, pk):
+    teacher = get_object_or_404(User, pk=pk)
+    data = dict()
+    context = {'teacher': teacher}
+    data['html_form'] = render_to_string('SuperAdmin/Teacher/partial_teacher_view.html', context, request=request)
+    return JsonResponse(data)
+
+
+def teacher_update(request,pk):
+    teacher = get_object_or_404(User, pk=pk)
+    form = TeacherSignUpUpdateForm(request.POST or None, request.FILES or None, instance=teacher)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "User Updated Successfully")
+        return redirect("super_admin_teacher_list")
+    # else:
+    #     messages.error(request, "Training Not Updated Successfully")
+    return render(request, 'SuperAdmin/Teacher/partial_teacher_update.html', {'form': form})

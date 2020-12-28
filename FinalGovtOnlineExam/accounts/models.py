@@ -16,7 +16,7 @@ class Activation(models.Model):
 
 class User(AbstractUser):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True,blank=True)
-    MinistryName = models.ForeignKey(Ministry,on_delete=models.CASCADE,null=True,blank=True)
+    MinistryName = models.ForeignKey(Ministry,on_delete=models.CASCADE,blank=True,null=True)
     is_governmentEmployee = models.BooleanField(default=False)
     is_trainer = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
@@ -36,3 +36,15 @@ class User(AbstractUser):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+class Contact(models.Model):
+    First_Name = models.CharField(max_length=100)
+    Last_Name = models.CharField(max_length=100)
+    Email_Address = models.EmailField()
+    Phone_number = models.CharField(max_length=15)
+    Message = models.TextField()
+
+    def __str__(self):
+        return self.Email_Address
+

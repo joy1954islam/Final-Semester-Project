@@ -1,10 +1,10 @@
 {% extends 'SuperAdmin/SuperAdminNavbar.html' %}
-
+{% load widget_tweaks %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block javascript %}
   <script src="{% static 'SuperAdmin/GovtEmployee/employee.js' %}"></script>
-{% endblock %}
+{% endblock javascript%}
 
 {% block content %}
 <br>
@@ -13,7 +13,7 @@
  <p>
      <a href="{% url 'employee_create' %}" type="button" style="float:right;" class="btn btn-primary">
          <span class="glyphicon glyphicon-plus"></span>
-            New Govt. Employee
+            New Ministry Incharge
      </a>
 
   </p>
@@ -27,6 +27,35 @@
         </div>
         <div class="x_content">
             <div class="row">
+                <form method="get">
+                      <div class="row">
+                        <div class="form-group col-sm-4 col-md-3">
+                          {{ MyFilter.form.username.label_tag }}
+                          {% render_field MyFilter.form.username class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-4 col-md-3">
+                          {{ MyFilter.form.first_name.label_tag }}
+                          {% render_field MyFilter.form.first_name class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-4 col-md-3">
+                          {{ MyFilter.form.last_name.label_tag }}
+                          {% render_field MyFilter.form.last_name class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-8 col-md-6">
+                          {{ MyFilter.form.MinistryName.label_tag }}
+                          <div>
+                            {% for choice in MyFilter.form.MinistryName %}
+                              <label class="checkbox-inline">
+                                {{ choice.tag }} {{ choice.choice_label }}
+                              </label>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                      </button>
+                </form>
                 <div class="col-sm-12">
                     <div class="card-box table-responsive">
                         <table class="table" id="datatable-buttons"  style="width:100%">
@@ -37,8 +66,9 @@
                                     <th>First Name </th>
                                     <th>Last Name </th>
                                     <th>Email</th>
-                                    <th>View</th>
-                                    <th>Delete</th>
+                                    <th>Ministry Name</th>
+                                    <th></th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,4 +89,4 @@
 </div>
 
 
-{% endblock %}
+{% endblock content %}

@@ -10,13 +10,19 @@
                     <a href="{% url 'course_list' %}"><i class="fa fa-edit"></i> Course </a>
                   </li>
                   <li>
-                    <a href="{% url 'topic_list' %}"><i class="fa fa-clone"></i> Course Content </a>
-                  </li>
-                  <li>
                     <a href="{% url 'teacher_list' %}"><i class="fa fa-coffee"></i> Teacher </a>
                   </li>
                   <li>
-                    <a href="{% url 'teacherEnroll_list' %}"><i class="fa fa-check"></i> Teacher Enroll </a>
+                    <a href="{% url 'teacherEnroll_list' %}"><i class="fa fa-book"></i> Course Assign </a>
+                  </li>
+<!--                  <li>-->
+<!--                    <a href="{% url 'teacher_course_assign_list' %}"><i class="fa fa-book"></i> Teacher Assign </a>-->
+<!--                  </li>-->
+                  <li>
+                    <a href="{% url 'course_material_approved_list' %}"><i class="fa fa-check"></i> Course Material Approved </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'student_list' %}"><i class="fa fa-file"></i> Student </a>
                   </li>
                   <li>
                     <a href="{% url 'Student_Enroll_View' %}"><i class="fa fa-file"></i> Student Enroll </a>

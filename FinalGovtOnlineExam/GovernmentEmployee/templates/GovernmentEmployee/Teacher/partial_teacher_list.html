@@ -8,16 +8,14 @@
           <td>{{ teacher.email }}</td>
           <td style="width: 100px">
             <button type="button"
-                    class="btn btn-danger btn-sm js-view-teacher"
+                    class="btn btn-success btn-sm js-view-teacher"
                     data-url="{% url 'teacher_view' teacher.id %}">
-              <span class='glyphicon glyphicon-eye-open'></span> View
+              <span class='glyphicon glyphicon-eye-open'></span>
             </button>
-          </td>
-          <td style="width: 100px">
             <button type="button"
                     class="btn btn-danger btn-sm js-delete-teacher"
                     data-url="{% url 'teacher_delete' teacher.id %}">
-              <span class="glyphicon glyphicon-trash"></span> Delete
+              <span class="glyphicon glyphicon-trash"></span>
             </button>
           </td>
       </tr>

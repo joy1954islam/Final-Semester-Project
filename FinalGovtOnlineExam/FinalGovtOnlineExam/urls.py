@@ -36,10 +36,15 @@ urlpatterns = [
     path('GovernmentEmployee/',include('GovernmentEmployee.urls')),
     path('Teacher/',include('Teacher.urls')),
     path('Student/', include('Student.urls')),
+    path('ViewClass/', include('ViewClass.urls')),
+
 
     path('courses/', user_views.Home_Course_View, name='Home_Course_View'),
     path('courses/details/<int:pk>/', user_views.CourseDetails, name='Home_Course_Details'),
     path('teacher/', user_views.Home_Teacher_View, name='Home_Teacher_View'),
+
+    path('about/', account_views.about,name='about'),
+    path('contact/', account_views.contact,name='contact'),
 
 ]
 if settings.DEBUG:

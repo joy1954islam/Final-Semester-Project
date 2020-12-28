@@ -1,35 +1,29 @@
 {% for course in courses %}
-   {% if course.username == user %}
+
    <tr>
-    <td>{{ course.CourseCode }}</td>
+        <td>{{ course.id}}</td>
     <td>{{ course.CourseName}}</td>
-    <td>{{ course.CourseStartDate }}</td>
-    <td>{{ course.CourseDuration }}</td>
+    <td>{{ course.Description }}</td>
+    {% if course.username == user %}
      <td style="padding-left: 20px;">
-      <a  class="user-profile" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-        <img src="{{ course.picture.url }}" alt="">
-      </a>
+          <a  class="user-profile" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+            <img src="{{ course.picture.url }}" alt="">
+          </a>
      </td>
-            <td style="width: 100px">
-              <button type="button"
-                      class="btn btn-danger btn-sm js-delete-course"
+     <td>
+         <button type="button" class="btn btn-secondary btn-sm js-delete-course"
                       data-url="{% url 'course_view' course.id %}">
                <span class='glyphicon glyphicon-eye-open'></span>
-              </button>
-            </td>
-
-            <td style="width: 100px">
-              <a href="{% url 'course_update' course.id %}" type="button" style="float:right;" class="btn btn-warning">
+         </button>
+         <a href="{% url 'course_update' course.id %}" type="button" style="float:right;" class="btn btn-success btn-sm">
                 <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-            </td>
-            <td style="width: 100px">
-              <button type="button"
+         </a>
+         <button type="button"
                       class="btn btn-danger btn-sm js-delete-course"
                       data-url="{% url 'course_delete' course.id %}">
                 <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </td>
+         </button>
+     </td>
    {% endif%}
    </tr>
 {% empty %}

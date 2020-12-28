@@ -1,0 +1,30 @@
+{% for topic in topics %}
+
+        <tr>
+          <td>{{ topic.id }}</td>
+          <td>{{ topic.CourseName}}</td>
+          <td>{{ topic.MaterialName }}</td>
+          <td>{{ topic.is_material_status }}</td>
+          <td style="width: 100px">
+            <a class="btn btn-success btn-sm" href="{% url 'course_material_approved_view' topic.id %}">
+              <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+          </td>
+          <td style="width: 100px">
+            <button type="button"
+                    class="btn btn-warning btn-sm js-update-topic"
+                    data-url="{% url 'course_material_approved_update' topic.id %}">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </td>
+          <td style="width: 100px">
+            <button type="button"
+                    class="btn btn-danger btn-sm js-delete-topic"
+                    data-url="{% url 'course_material_approved_delete' topic.id %}">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </td>
+        </tr>
+
+
+{% endfor %}

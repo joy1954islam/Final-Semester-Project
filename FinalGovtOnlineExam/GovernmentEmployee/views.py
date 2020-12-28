@@ -5,10 +5,13 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 
-from GovernmentEmployee.forms import CourseForm, CourseContentForm, TeacherSignUpForm
-from GovernmentEmployee.models import Course, CourseContent
-from Teacher.models import Student
+from CourseMaterial.models import CourseMaterial
+from GovernmentEmployee.filters import CourseMaterialApprovedFilter
+from GovernmentEmployee.forms import CourseForm, TeacherSignUpForm, CourseMaterialForm,StudentSignUpForm
+from GovernmentEmployee.models import Course
+from Teacher.models import Student, Quiz
 from TeacherEnroll.models import TeacherEnroll
+from UploadLecture.models import UploadLecture
 from accounts.models import Activation
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
 from accounts.forms import UserUpdateForm, ChangeEmailForm
@@ -27,29 +30,33 @@ User = get_user_model()
 
 def CourseDetails(request,pk):
     # course = Training.objects.filter(Topic__TrainingName=)
-    course1 = Course.objects.filter(pk=pk)
-    course2 = CourseContent.objects.filter(CourseName=pk)
-    course3 = TeacherEnroll.objects.filter(CourseName=pk)
+    course = TeacherEnroll.objects.filter(pk=pk)
+    course1 = Course.objects.filter(CourseName=pk)
+    course2 = CourseMaterial.objects.filter(CourseName=pk)
+
     context = {
-        'Course': course1,
-        'Course1': course2,
-        'Course2': course3
+        'Course': course,
+        'Course1': course1,
+        'Course2': course2
     }
     return render(request,'CourseDetails.html', context)
 
 
 def index(request):
-    courses = Course.objects.all()
+    courses = TeacherEnroll.objects.all()
+    course_enroll = Student.objects.all()
+    Enroll_Count = course_enroll.filter(is_enroll=True).count()
     teacher = User.objects.all()
     context = {
         'courses': courses,
         'teacher': teacher,
+        'Enroll_Count': Enroll_Count,
     }
     return render(request,'index.html', context)
 
 
 def Home_Course_View(request):
-    courses = Course.objects.all()
+    courses = TeacherEnroll.objects.all()
     return render(request, 'courses.html', {'courses': courses})
 
 
@@ -60,9 +67,14 @@ def Home_Teacher_View(request):
 
 
 def home(request):
-    student = User.objects.count()
+    student_count = User.objects.all()
+    student = student_count.filter(is_student=True,).count()
+    teacher = student_count.filter(is_trainer=True).count()
+    government_employee = student_count.filter(is_governmentEmployee=True).count()
     context = {
         'student': student,
+        'teacher': teacher,
+        'government_employee': government_employee,
 
     }
     return render(request, 'GovernmentEmployee/home.html',context)
@@ -72,9 +84,21 @@ def GovernmentEmployeeHome(request):
     return render(request,'GovernmentEmployee/GovernmentEmployeeNavbar.html')
 
 
-def Student_Enroll(request):
-    students = Student.objects.all()
-    return render(request, 'GovernmentEmployee/StudentEnroll/student_enroll_list.html', {'students': students})
+# def Student_Enroll(request):
+#     students = Student.objects.all()
+#     return render(request, 'GovernmentEmployee/StudentEnroll/student_enroll_list.html', {'students': students})
+#
+#
+# def Student_Enroll_Update(request,pk):
+#     student = get_object_or_404(Student, pk=pk)
+#     form = StudentEnrollForm(request.POST or None, instance=student)
+#     if form.is_valid():
+#         form.save()
+#         messages.success(request, "course Approved Successfully")
+#         return redirect("Student_Enroll_View")
+#     # else:
+#     #     messages.error(request, "Training Not Updated Successfully")
+#     return render(request, 'GovernmentEmployee/StudentEnroll/student_enroll_update.html', {'form': form})
 
 
 def course_list(request):
@@ -219,59 +243,6 @@ class ChangePasswordView(BasePasswordChangeView):
         return redirect('log_in')
 
 
-def topic_list(request):
-    topics = CourseContent.objects.all()
-    return render(request, 'GovernmentEmployee/CourseContent/content_list.html', {'topics': topics})
-
-
-def save_topic_form(request, form, template_name):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.instance.username = request.user
-            form.save()
-            data['form_is_valid'] = True
-            topics = CourseContent.objects.all()
-            messages.success(request, "Course Content Successfully")
-            data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_list.html', {'topics': topics })
-        else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
-
-
-def topic_create(request):
-    if request.method == 'POST':
-        form = CourseContentForm(request.POST)
-    else:
-        form = CourseContentForm()
-    return save_topic_form(request, form, 'GovernmentEmployee/CourseContent/partial_content_create.html')
-
-
-def topic_update(request, pk):
-    topic = get_object_or_404(CourseContent, pk=pk)
-    if request.method == 'POST':
-        form = CourseContentForm(request.POST, instance=topic)
-    else:
-        form = CourseContentForm(instance=topic)
-    return save_topic_form(request, form, 'GovernmentEmployee/CourseContent/partial_content_update.html')
-
-
-def topic_delete(request, pk):
-    topic = get_object_or_404(CourseContent, pk=pk)
-    data = dict()
-    if request.method == 'POST':
-        topic.delete()
-        data['form_is_valid'] = True
-        topics = CourseContent.objects.all()
-        data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_list.html', {'topics': topics })
-    else:
-        context = {'topic': topic}
-        data['html_form'] = render_to_string('GovernmentEmployee/CourseContent/partial_content_delete.html', context, request=request)
-    return JsonResponse(data)
-
-
 def teacher_list(request):
     teachers = User.objects.all()
     return render(request, 'GovernmentEmployee/Teacher/teacher_list.html', {'teachers': teachers})
@@ -344,5 +315,148 @@ def teacher_view(request, pk):
     data = dict()
     context = {'teacher': teacher}
     data['html_form'] = render_to_string('GovernmentEmployee/Teacher/partial_teacher_view.html', context, request=request)
+    return JsonResponse(data)
+
+
+def material_list(request):
+    topics = CourseMaterial.objects.all()
+    MyFileter = CourseMaterialApprovedFilter(request.GET, queryset=topics)
+    topics = MyFileter.qs
+    context = {
+        'topics': topics,
+        'MyFileter': MyFileter,
+    }
+    return render(request, 'GovernmentEmployee/CourseMaterialApproved/content_list.html',context )
+
+
+def save_material_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            
+            form.save()
+            data['form_is_valid'] = True
+            topics = CourseMaterial.objects.all()
+            messages.success(request, "Course Material Successfully")
+            data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseMaterialApproved/partial_content_list.html', {'topics': topics })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+
+def material_update(request, pk):
+    topic = get_object_or_404(CourseMaterial, pk=pk)
+    if request.method == 'POST':
+        form = CourseMaterialForm(request.POST, instance=topic)
+    else:
+        form = CourseMaterialForm(instance=topic)
+    return save_material_form(request, form, 'GovernmentEmployee/CourseMaterialApproved/partial_content_update.html')
+
+
+def material_delete(request, pk):
+    topic = get_object_or_404(CourseMaterial, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        topic.delete()
+        data['form_is_valid'] = True
+        topics = CourseMaterial.objects.all()
+        data['html_topic_list'] = render_to_string('GovernmentEmployee/CourseMaterialApproved/partial_content_list.html', {'topics': topics })
+    else:
+        context = {'topic': topic}
+        data['html_form'] = render_to_string('GovernmentEmployee/CourseMaterialApproved/partial_content_delete.html', context, request=request)
+    return JsonResponse(data)
+
+
+def material_view(request, pk):
+    topic = CourseMaterial.objects.filter(pk=pk)
+    lecture = UploadLecture.objects.filter(MaterialName=pk)
+    quiz = Quiz.objects.filter(subject=pk)
+    context = {
+        'topics': topic,
+        'lecture': lecture,
+        'quiz': quiz,
+    }
+    return render(request,'GovernmentEmployee/CourseMaterialApproved/partial_content_view.html',context)
+
+
+def student_list(request):
+    students = User.objects.all()
+    return render(request, 'GovernmentEmployee/Student/student_list.html', {'students': students})
+
+
+class StudentSignUpView(FormView):
+    template_name = 'GovernmentEmployee/Student/partial_student_create.html'
+    form_class = StudentSignUpForm
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'student'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        request = self.request
+        user = form.save(commit=False)
+
+        if settings.DISABLE_USERNAME:
+            # Set a temporary username
+            user.username = get_random_string()
+        else:
+            user.username = form.cleaned_data['username']
+
+        if settings.ENABLE_USER_ACTIVATION:
+            user.is_active = False
+
+        # Create a user record
+        user.owner = request.user
+        user.save()
+
+        # Change the username to the "user_ID" form
+        if settings.DISABLE_USERNAME:
+            user.username = f'user_{user.id}'
+            user.save()
+
+        if settings.ENABLE_USER_ACTIVATION:
+            code = get_random_string(20)
+
+            act = Activation()
+            act.code = code
+            act.user = user
+            act.save()
+
+            send_activation_email(request, user.email, code)
+
+            messages.success(request,f'You are signed up. To activate the account, follow the link sent to the mail.')
+        else:
+            raw_password = form.cleaned_data['password1']
+
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            messages.success(request,f'You are successfully signed up!')
+
+        return redirect('student_list')
+
+
+def student_delete(request, pk):
+    student = get_object_or_404(User, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        student.delete()
+        data['form_is_valid'] = True
+        students = User.objects.all()
+        data['html_student_list'] = render_to_string('GovernmentEmployee/Student/partial_student_list.html',
+                                                     {'students': students})
+    else:
+        context = {'student': student}
+        data['html_form'] = render_to_string('GovernmentEmployee/Student/partial_student_delete.html', context,
+                                             request=request)
+    return JsonResponse(data)
+
+
+def student_view(request, pk):
+    student = get_object_or_404(User, pk=pk)
+    data = dict()
+    context = {'student': student}
+    data['html_form'] = render_to_string('GovernmentEmployee/Student/partial_student_view.html', context, request=request)
     return JsonResponse(data)
 

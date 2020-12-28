@@ -30,10 +30,30 @@ from .utils import (
 from .forms import (
     SignInViaUsernameForm, SignInViaEmailForm, SignInViaEmailOrUsernameForm, SignUpForm,
     RestorePasswordForm, RestorePasswordViaEmailOrUsernameForm, RemindUsernameForm,
-    ResendActivationCodeForm, ResendActivationCodeViaEmailForm, ChangeProfileForm, ChangeEmailForm,
+    ResendActivationCodeForm, ResendActivationCodeViaEmailForm, ChangeProfileForm, ChangeEmailForm, ContactForm,
 )
 from .models import Activation
 from django.views.generic import TemplateView
+
+
+def about(request):
+    return render(request,'about us.html')
+
+
+def contact(request):
+    if request.method == 'POST':
+        u_form = ContactForm(request.POST)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, f'Your Contact Send Successfully')
+            return redirect('index')
+    else:
+        u_form = ContactForm()
+
+    context = {
+        'form': u_form
+    }
+    return render(request, 'contact.html', context)
 
 
 def home(request):
