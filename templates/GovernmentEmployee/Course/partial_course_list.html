@@ -1,0 +1,33 @@
+{% for course in courses %}
+
+   <tr>
+        <td>{{ course.id}}</td>
+    <td>{{ course.CourseName}}</td>
+    <td>{{ course.Description }}</td>
+    {% if course.username == user %}
+     <td style="padding-left: 20px;">
+          <a  class="user-profile" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+            <img src="{{ course.picture.url }}" alt="">
+          </a>
+     </td>
+     <td>
+         <button type="button" class="btn btn-secondary btn-sm js-delete-course"
+                      data-url="{% url 'course_view' course.id %}">
+               <span class='glyphicon glyphicon-eye-open'></span>
+         </button>
+         <a href="{% url 'course_update' course.id %}" type="button" style="float:right;" class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-pencil"></span>
+         </a>
+         <button type="button"
+                      class="btn btn-danger btn-sm js-delete-course"
+                      data-url="{% url 'course_delete' course.id %}">
+                <span class="glyphicon glyphicon-trash"></span>
+         </button>
+     </td>
+   {% endif%}
+   </tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center bg-warning">No course</td>
+  </tr>
+{% endfor %}

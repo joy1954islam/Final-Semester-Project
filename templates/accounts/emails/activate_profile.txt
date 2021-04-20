@@ -1,0 +1,5 @@
+{% load i18n %}
+
+To activate your profile, please follow this link:
+
+{{ uri }}

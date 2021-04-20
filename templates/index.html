@@ -1,0 +1,27 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+
+<br> <br>
+        <!--    start carousel-->
+            <div>
+                {% include 'messages.html' %}
+                <br>
+                {% include 'carousel.html'%}
+            </div>
+<div>
+    {% include 'HomeCourses.html'%}
+</div>
+ <div>
+    {% include 'HomeTeacher.html'%}
+</div>
+        <!--    end carousel -->
+
+       <br><br>
+
+
+
+{% endblock content %}

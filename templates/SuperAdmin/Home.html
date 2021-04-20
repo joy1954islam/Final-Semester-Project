@@ -1,0 +1,43 @@
+{% extends 'SuperAdmin/SuperAdminNavbar.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-blue">
+                    <div class="inner">
+                        <center><h3> {{ student }} </h3></center>
+                        <center><h4> Total Student  </h4></center>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-green">
+                    <div class="inner">
+                        <center><h3> {{ government_employee }} </h3></center>
+                        <center><h4> Total Government Employee </h4></center>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-red">
+                    <div class="inner">
+                        <center><h3> {{ teacher }} </h3></center>
+                        <center> <h4> Faculty Member </h4></center>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends 'GovernmentEmployee/GovernmentEmployeeNavbar.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block javascript %}
+  <script src="{% static 'TeacherEnroll/teacherEnroll.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<br>
+
+  <p>
+<a href="{% url 'teacher_course_assign_create'%}" class="btn btn-success">NEW TEACHER COURSE ASSIGN</a>
+  </p>
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+
+                <form method="get" style="float:right;">
+                            {{ MyFileter.form }}
+                            <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table class="table" id="datatable-buttons"  style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Batch</th>
+                                    <th>TeacherName</th>
+                                    <th>CourseName</th>
+                                    <th>CourseStartDate</th>
+                                    <th>CourseDuration</th>
+                                    <th>Published</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for teacherEnroll in teacherEnrolls %}
+                                        {% if teacherEnroll.owner_name == user %}
+                                          <tr>
+                                             <td>{{ teacherEnroll.id }}</td>
+                                            <td>{{ teacherEnroll.Batch }}</td>
+                                            <td>{{ teacherEnroll.TeacherName}}</td>
+                                            <td>{{ teacherEnroll.CourseName }}</td>
+                                            <td>{{ teacherEnroll.CourseStartDate }}</td>
+                                            <td>{{ teacherEnroll.CourseDuration }}</td>
+                                            <td>{{ teacherEnroll.is_publish }}</td>
+                                            <td style="width: 100px">
+
+                                            <a href="{% url 'teacher_course_assign_update' teacherEnroll.id %}" class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-pencil"></span> </a>
+                                            <a href="{% url 'teacher_course_assign_delete' teacherEnroll.id %}" class="btn btn-warning btn-sm"> <span class="glyphicon glyphicon-trash"></span> </a>
+
+                                            </td>
+                                          </tr>
+                                        {% endif %}
+                                        {% empty %}
+                                          <tr>
+                                            <td colspan="8" class="text-center bg-warning">No teacher Enroll</td>
+                                          </tr>
+                                        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-teacherEnroll">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

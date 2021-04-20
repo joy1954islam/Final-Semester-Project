@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
+<script src = "{% static 'Student/quiz.js' %}"></script>
+<div class="container">
+
+        <div class="progress mb-3">
+          <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+
+        </div>
+        <h2 class="mb-3">{{ quiz.name }}</h2>
+        <p class="lead">{{ question.text }}</p>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-primary">Next →</button>
+        </form>
+    <div>
+ {% if  unanswered_questions %}
+        <div >This is correct answer</div>
+        {% else %}
+         <div >This is not correct answer</div>
+ {% endif %}
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

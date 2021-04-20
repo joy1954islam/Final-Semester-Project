@@ -1,0 +1,9 @@
+{% extends 'Teacher/TeacherNavbar.html' %}
+{% load static %}
+{% block content %}
+
+{% for answer in answer %}
+  <td>{{answer.student}}</td>
+  <td>{{answer.answer}}</td>
+{% endfor%}
+{% endblock content %}

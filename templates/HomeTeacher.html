@@ -1,0 +1,38 @@
+{% load static %}
+{% block content %}
+<br>
+<br>
+
+<div class="site-section">
+      <div class="container">
+        <div class="row mb-5 justify-content-center text-center">
+          <div class="col-lg-6 mb-5">
+            <h2 class="section-title-underline mb-3">
+              <span>Popular Teacher</span>
+            </h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+              <div class="owl-slide-3 owl-carousel">
+                {% for teacher in teacher %}
+                      {% if teacher.is_trainer %}
+                          <div class="card">
+                            <img class="card-img-top" src="{{ teacher.image.url }}" alt="Card image cap" style="height: 350px; width:350px;">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ teacher.username}}</h5>
+                                <p class="card-text"  style="color:#662d91;"> {{ teacher.email }}</p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">{{ teacher.phone_number }}</small>
+                            </div>
+                          </div>
+                      {% endif %}
+                    {% endfor%}
+              </div>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock content %}

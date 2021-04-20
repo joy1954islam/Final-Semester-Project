@@ -1,5 +1,0 @@
-{% load i18n %}
-
-To change your current email address, please follow the link:
-
-{{ uri }}

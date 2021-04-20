@@ -1,0 +1,25 @@
+{% for ministry in ministrys %}
+  <tr>
+    <td>{{ ministry.id }}</td>
+    <td>{{ ministry.MinistryName}}</td>
+    <td>{{ ministry.MinisterName }}</td>
+    <td>{{ ministry.Email }}</td>
+    <td style="width: 100px">
+      <button type="button"
+              class="btn btn-success btn-sm js-update-ministry"
+              data-url="{% url 'ministry_update' ministry.id %}">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-ministry"
+              data-url="{% url 'ministry_delete' ministry.id %}">
+        <span class="glyphicon glyphicon-trash"></span>
+      </button>
+    </td>
+  </tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center bg-warning">No ministry</td>
+  </tr>
+{% endfor %}

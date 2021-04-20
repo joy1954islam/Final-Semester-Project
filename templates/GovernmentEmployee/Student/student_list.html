@@ -1,0 +1,61 @@
+{% extends 'GovernmentEmployee/GovernmentEmployeeNavbar.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'GovernmentEmployee/Student/student.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<br>
+
+
+ <p>
+     <a href="{% url 'student_create' %}" type="button" style="float:right;" class="btn btn-primary">
+         <span class="glyphicon glyphicon-plus"></span>
+            New student
+     </a>
+
+  </p>
+
+
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table class="table" id="datatable-buttons"  style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>UserName</th>
+                                    <th>First Name </th>
+                                    <th>Last Name </th>
+                                    <th>Email</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% include 'GovernmentEmployee/Student/partial_student_list.html' %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-student">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

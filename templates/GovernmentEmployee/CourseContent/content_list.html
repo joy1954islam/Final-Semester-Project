@@ -1,0 +1,56 @@
+{% extends 'GovernmentEmployee/GovernmentEmployeeNavbar.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'GovernmentEmployee/CourseContent/content.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<br>
+
+  <p>
+    <button type="button" style="float:right;" class="btn btn-primary js-create-topic" data-url="{% url 'topic_create' %}">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Content
+    </button>
+  </p>
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table class="table" id="datatable-buttons"  style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>CourseName</th>
+                                    <th>TopicName</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% include 'GovernmentEmployee/CourseContent/partial_content_list.html' %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-topic">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

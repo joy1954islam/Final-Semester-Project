@@ -1,0 +1,33 @@
+<form method="post" action="{% url 'course_view' course.id %}" class="js-course-view-form">
+  {% csrf_token %}
+  <div class="modal-header">
+    <h4 class="modal-title"> Course View</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+      <div class="x_content">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card-box table-responsive">
+                <div class="media">
+                  <div class="media-body">
+                    <img class="rounded-circle account-img" src="{{ course.picture.url }}">
+                    <h2 class="account-heading"> {{ course.CourseName }}</h2>
+                    <p class="text-secondary">Course Description : {{ course.Description }}</p>
+                    <p class="text-primary">Course Created : {{ course.username }}</p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+        </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+  </div>
+</form>

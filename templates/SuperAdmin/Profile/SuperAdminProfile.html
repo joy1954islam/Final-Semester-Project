@@ -1,0 +1,55 @@
+{% extends 'SuperAdmin/SuperAdminNavbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>{{ user.username }} <small>Profile</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <div class="media">
+                                <img class="rounded-circle account-img" src="{{ user.image.url }}">
+                                <div class="media-body">
+                                           <h2 class="account-heading">UserName : {{ user.username }}</h2>
+                                           <p class="text-secondary">Email : {{ user.email }}</p>
+                                           <p class="text-secondary">First Name : {{ user.first_name }}</p>
+                                           <p class="text-secondary">Last Name : {{ user.last_name }}</p>
+                                           <p class="text-secondary">Full Name : {{ user.first_name}} {{ user.last_name}}</p>
+                                           <p class="text-secondary">Phone Number : {{ user.phone_number }}</p>
+                                           <p class="text-secondary">Address : {{ user.Address }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <form method="POST" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             {{ u_form|crispy }}
+                            <button class="btn btn-success col-md-12 form-group" type="submit">Update Profile</button>
+                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content%}

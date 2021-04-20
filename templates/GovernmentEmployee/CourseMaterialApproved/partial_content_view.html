@@ -1,0 +1,56 @@
+
+{% extends 'GovernmentEmployee/GovernmentEmployeeNavbar.html' %}
+
+{% load static %}
+{% block content %}
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Button Example <small>Users</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                        <table class="table" id="datatable-buttons"  style="width:100%">
+                            <thead>
+                            <tr>
+                                 <th>Material Code</th>
+                                 <th>Material Name</th>
+                                 <th>Material Status</th>
+                                 <th>Lecture Code</th>
+                                 <th>Video</th>
+                                 <th>PDF</th>
+                                 <th>Text</th>
+                                 <th>Quiz</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                   {% for topic in topics %}
+                                        <tr>
+                                          <td>{{ topic.id }}</td>
+                                          <td>{{ topic.MaterialName }}</td>
+                                          <td>{{ topic.is_material_status }}</td>
+                                            {% for lecture in lecture %}
+                                                  <td>lecture {{ lecture.id }}</td>
+                                                  <td>{{lecture.Video}}</td>
+                                                  <td>{{lecture.Pdf}}</td>
+                                                  <td>{{lecture.Text}}</td>
+                                            {% endfor %}
+                                            {% for quiz in quiz %}
+                                                  <td>{{quiz.name}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

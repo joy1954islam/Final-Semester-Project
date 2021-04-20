@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<br>
+<br><br>
+<br><br>
+<br>
+
+
+<div class="container">
+{% for course in Course %}
+    <div class="p-3 mb-2 bg-primary text-white">{{ course.CourseName }} Details</div>
+    <div class="row no-gutters bg-light position-relative">
+         <div class="col-md-6 mb-md-0 p-md-4">
+            <img src="{{ course.CourseName.picture.url }}" class="w-100" alt="..." style="height: 350px; width:350px;">
+         </div>
+         <div class="col-md-6 position-static p-4 pl-md-0">
+            <div class="p-3 mb-2 bg-secondary text-white">{{ course.CourseName }}</div>
+            <p>Batch : {{ course.Batch }}</p>
+            <p>Course Created By : {{ course.owner_name }}</p>
+            <p>Course Start Date : {{ course.CourseStartDate }}</p>
+            <p>Course Duration : {{ course.CourseDuration }}</p>
+            <p>Course Published : {{ course.is_publish }}</p>
+            <div class="p-3 mb-2 bg-info text-white">Teacher</div>
+            <p>Course Teacher Name : {{ course.TeacherName }}</p>
+
+            <div class="p-3 mb-2 bg-danger text-white">
+                 <a href="{% url 'student_interests' %}"> Enroll Now</a>
+            </div>
+             <br>
+             <div>
+                 {% if course.is_publish == True %}
+                     <a class="p-3 mb-2 btn btn-outline-primary" href="{% url 'home_class' course.pk %}" role="button">Go To Course</a>
+                 {% endif%}
+             </div>
+
+         </div>
+    </div>
+    <div class="p-3 mb-2 bg-success text-white">Course Description </div>
+            <div class="card mb-3">
+              <div class="card-body">
+                <p class="card-text"> {{ course.CourseName.Description}}</p>
+              </div>
+            </div>
+        <div class="p-3 mb-2 bg-success text-white">Course Content </div>
+        {% for topicName in Course2 %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <p class="card-text"> {{ topicName.MaterialName}}</p>
+                  </div>
+                </div>
+         {% endfor%}
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock content%}
